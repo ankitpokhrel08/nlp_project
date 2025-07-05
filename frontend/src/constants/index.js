@@ -221,15 +221,18 @@ export const benefits = [
   {
     id: "0",
     title: "NepaliGPT",
-    text: "Generative Language Model for Nepali Language",
+    description: "Nepali Language Generative Pretrained Transformer Model",
+    text: "Generative Language Model for Nepali Language — An experimental project to build a text generation model for the Nepali language using a GPT-2 based architecture. It learns to predict the next word in a sentence based on previous context in Nepali. Trained on a 9.3 GB dataset collected from Nepali books, news articles, and open-source resources. Key training settings include 5 epochs, learning rate of 2e-5, weight decay of 0.01, and bf16 precision. Model for Nepali Language",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
   },
   {
     id: "1",
-    title: "Improve everyday",
-    text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
+    title: "STEPS Parser",
+    description:
+      "A modular dependency parser using transformer models, built for reproducible and extensible linguistic analysis.",
+    text: "The STEPS is a research prototype parser that uses transformer models (like mBERT and XLM-R) to analyze the structure of sentences in different languages. Designed for experiments in computational linguistics, it can predict how words are connected (dependencies) in a sentence. The code helps researchers reproduce results from a published study and explore new ideas using Universal Dependencies data. It supports training on multiple languages, parsing new text, and evaluating results with provided scripts. Note: this software is for research only and isn’t actively maintained. uses natural language processing to understand user queries and provide accurate and relevant responses.",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
@@ -237,16 +240,20 @@ export const benefits = [
   },
   {
     id: "2",
-    title: "Connect everywhere",
-    text: "Connect with the AI chatbot from anywhere, on any device, making it more accessible and convenient.",
+    title: "Named Entity Recognition for Nepali Using BERT Based Models",
+    description:
+      "A Nepali-language model that identifies names of people, places, and organizations from text.",
+    text: "This is a Nepali Named Entity Recognition (NER) model built on top of a powerful multilingual AI (xlm-roberta-base). It has been trained using the Everest NER dataset to detect names of people, locations, and organizations in Nepali sentences. You can use it with just a few lines of Python code through the Hugging Face library to analyze any Nepali text and find meaningful entities. Ideal for researchers, students, or developers working with Nepali natural language processing tasks.",
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
     imageUrl: benefitImage2,
   },
   {
     id: "3",
-    title: "Fast responding",
-    text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
+    title: "NepaliLemmatizer",
+    description:
+      "A tool to find the root form of Nepali words using TRIE and hybrid techniques.",
+    text: "NepaliLemmatizer is a simple tool that helps convert Nepali words into their root forms (lemmas). For example, it can turn 'खाएको' into its base form 'खानु'. It uses two methods—TRIE-based and a hybrid approach—to do this efficiently. You just need to install the dependencies, activate the environment, and run the script with your Nepali word to get its root form. Perfect for anyone working on Nepali language processing or building smart language apps.",
     backgroundUrl: "./src/assets/benefits/card-4.svg",
     iconUrl: benefitIcon4,
     imageUrl: benefitImage2,
@@ -254,16 +261,21 @@ export const benefits = [
   },
   {
     id: "4",
-    title: "Ask anything",
-    text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
+    title:
+      "Spoken Language Identifier: Detecting Nepali Languages from Audio Using CNNs",
+    description:
+      "A deep learning system that identifies the spoken language from audio files using PyTorch and Mel Spectrograms.",
+    text: "This project is an AI-based system that listens to an audio clip and tells you what language is being spoken. It uses deep learning (specifically, a CNN model built with PyTorch) and transforms the sound into visual patterns called Mel Spectrograms—like turning audio into images—and then classifies which language it is. The system can currently detect five regional languages (Nepali, Hindi, Sanskrit, Newari, Maithili) using audio clips as short as 10 seconds. It also includes a web API that you can interact with to upload your own audio files and get real-time predictions. The entire system is containerized with Docker and can be deployed on the cloud for accessibility. It’s a practical tool for speech recognition, multilingual support in contact centers, or automatic audio translation.",
     backgroundUrl: "./src/assets/benefits/card-5.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
   },
   {
     id: "5",
-    title: "Improve everyday",
-    text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
+    title: "Classifying COVID-19 Nepali Tweets in a Low-Resource Setting",
+    description:
+      "A multilingual AI system that categorizes Nepali tweets about COVID-19 into key topics for better public health insights.",
+    text: "This project uses AI to understand what Nepali Twitter users were saying about COVID-19 during the pandemic. Since most social media monitoring tools only work in big global languages, this system helps fill the gap for Nepali. It automatically collects Nepali-language tweets related to COVID-19, classifies them into eight common topics—like symptoms, vaccination, or misinformation—and displays the results in a live dashboard. The team used two advanced AI models (mBERT and MuRIL) to train the system and found that MuRIL, which better understands South Asian languages, performs well on larger datasets. Everything, including the dataset, models, and code, is open-source and publicly available, making it a valuable tool for public health researchers and developers working in low-resource languages.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
