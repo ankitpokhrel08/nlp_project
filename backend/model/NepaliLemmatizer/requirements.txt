@@ -1,0 +1,8 @@
+tabulate
+scikit-learn
+numpy
+pandas
+nltk
+fuzzywuzzy
+hunspell
+streamlit
