@@ -40,18 +40,24 @@ export const navigation = [
   {
     id: "0",
     title: "Home",
-    url: "#home",
+    url: "#hero",
   },
   {
     id: "1",
     title: "Projects",
-    url: "#projects",
+    url: "#features",
   },
   {
     id: "2",
     title: "Contribute",
-    url: "contribute",
-  }
+    url: "https://github.com/ankitpokhrel08/nlp_project",
+    external: true,
+  },
+  {
+    id: "3",
+    title: "About Us",
+    url: "#pricing",
+  },
 ];
 
 export const heroIcons = [homeSmile, file02, searchMd, plusSquare];
