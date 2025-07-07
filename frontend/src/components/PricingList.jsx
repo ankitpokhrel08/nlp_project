@@ -16,8 +16,6 @@ const PricingList = () => {
         return kisiBg;
       case "3":
         return satyalBg;
-      default:
-        return pokhrelBg;
     }
   };
 
