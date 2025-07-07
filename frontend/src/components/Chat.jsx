@@ -14,22 +14,56 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Sample Nepali prompts to help users
-  const samplePrompts = [
-    "नमस्ते, तपाईं कस्तो हुनुहुन्छ?",
-    "काठमाडौं बारे बताउनुहोस्",
-    "नेपालको संस्कृति के छ?",
-    "हिमालयको बारेमा केही भन्नुहोस्",
-    "नेपाली खाना के मन पराउनुहुन्छ?",
-    "दशैं तिहारको बारेमा भन्नुहोस्",
-  ];
-
   // Convert URL-friendly name back to display name
   const displayName = modelName
     ?.replace(/-/g, " ")
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+
+  // Determine model type based on modelName
+  const getModelType = () => {
+    if (modelName?.includes("lemmatizer")) return "lemmatizer";
+    if (modelName?.includes("ner") || modelName?.includes("entity"))
+      return "ner";
+    return "chat"; // default for NepaliGPT
+  };
+
+  const modelType = getModelType();
+
+  // Sample prompts based on model type
+  const getSamplePrompts = () => {
+    if (modelType === "lemmatizer") {
+      return [
+        "पढ्दै",
+        "खेल्दै",
+        "खाइरहेको",
+        "गरिरहेका",
+        "फुलेका",
+        "छोराछोरीहरु",
+      ];
+    } else if (modelType === "ner") {
+      return [
+        "काठमाडौं, पोखरा, लुम्बिनी, चितवन, र मुस्ताङ नेपालका प्रसिद्ध पर्यटकीय स्थलहरू हुन्।",
+        "राम शर्मा काठमाडौं विश्वविद्यालयमा पढ्छन्।",
+        "सगरमाथा नेपालको सबैभन्दा अग्लो हिमाल हो।",
+        "प्रधानमन्त्री ओली सिंहदरबारमा बसेर काम गर्छन्।",
+        "गौतम बुद्ध लुम्बिनीमा जन्मेका थिए।",
+        "गोरखा जिल्लामा रहेको मनकामना मन्दिर प्रसिद्ध छ।",
+      ];
+    } else {
+      return [
+        "नमस्ते, तपाईं कस्तो हुनुहुन्छ?",
+        "काठमाडौं बारे बताउनुहोस्",
+        "नेपालको संस्कृति के छ?",
+        "हिमालयको बारेमा केही भन्नुहोस्",
+        "नेपाली खाना के मन पराउनुहुन्छ?",
+        "दशैं तिहारको बारेमा भन्नुहोस्",
+      ];
+    }
+  };
+
+  const samplePrompts = getSamplePrompts();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -41,15 +75,24 @@ const Chat = () => {
 
   // Initialize with a welcome message
   useEffect(() => {
+    let welcomeText = "";
+    if (modelType === "lemmatizer") {
+      welcomeText = `नमस्ते! I'm ${displayName}. Send me Nepali text and I'll convert the words to their root forms (lemmas). Try typing some Nepali words!`;
+    } else if (modelType === "ner") {
+      welcomeText = `नमस्ते! I'm ${displayName}. I can identify named entities (people, places, organizations) in Nepali text. Enter any Nepali text and I'll highlight the entities I find!`;
+    } else {
+      welcomeText = `नमस्ते! I'm ${displayName}, a Nepali language model. I can help you generate text in Nepali. Feel free to ask me questions in Nepali or English. You can also use the sample prompts below to get started!`;
+    }
+
     setMessages([
       {
         id: 1,
-        text: `नमस्ते! I'm ${displayName}, a Nepali language model. I can help you generate text in Nepali. Feel free to ask me questions in Nepali or English. You can also use the sample prompts below to get started!`,
+        text: welcomeText,
         sender: "bot",
         timestamp: new Date(),
       },
     ]);
-  }, [displayName]);
+  }, [displayName, modelType]);
 
   // Handle sample prompt selection
   const handleSamplePrompt = (prompt) => {
@@ -108,50 +151,120 @@ const Chat = () => {
     }, 0);
 
     try {
-      // Enhanced prompt with transliteration
-      const enhancedPrompt = getEnhancedPrompt(userMessage.text);
+      let response, data;
 
-      // Show transliteration info if prompt was enhanced
-      if (enhancedPrompt !== userMessage.text) {
-        const transliterationInfo = {
-          id: Date.now() + 0.5,
-          text: `✨ Auto-converted: "${userMessage.text}" → "${enhancedPrompt}"`,
-          sender: "system",
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, transliterationInfo]);
-      }
+      if (modelType === "lemmatizer") {
+        // Call lemmatizer API
+        response = await fetch("http://localhost:5001/lemmatize", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: userMessage.text,
+          }),
+        });
 
-      // Call the Flask API
-      const response = await fetch("http://localhost:5001/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: enhancedPrompt,
-          max_length: 150,
-          temperature: 0.7,
-          do_sample: true,
-        }),
-      });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+        data = await response.json();
 
-      const data = await response.json();
+        if (data.success) {
+          const botResponse = {
+            id: Date.now() + 1,
+            text: data.lemmatized_text,
+            sender: "bot",
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botResponse]);
+        } else {
+          throw new Error(data.message || "Lemmatization failed");
+        }
+      } else if (modelType === "ner") {
+        // Call NER API
+        response = await fetch("http://localhost:5001/ner", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: userMessage.text,
+          }),
+        });
 
-      if (data.success) {
-        const botResponse = {
-          id: Date.now() + 1,
-          text: data.response || "I'm sorry, I couldn't generate a response.",
-          sender: "bot",
-          timestamp: new Date(),
-        };
-        setMessages((prev) => [...prev, botResponse]);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+
+        if (data.success) {
+          let responseText = `Found ${data.entity_count} entities:\n\n`;
+          data.entities.forEach((entity, index) => {
+            responseText += `${index + 1}. "${entity.word}" - ${
+              entity.entity
+            } (${(entity.confidence * 100).toFixed(1)}%)\n`;
+          });
+
+          const botResponse = {
+            id: Date.now() + 1,
+            text: responseText,
+            sender: "bot",
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botResponse]);
+        } else {
+          throw new Error(data.message || "NER failed");
+        }
       } else {
-        throw new Error(data.message || "Failed to generate response");
+        // Default: Call NepaliGPT API
+        // Enhanced prompt with transliteration
+        const enhancedPrompt = getEnhancedPrompt(userMessage.text);
+
+        // Show transliteration info if prompt was enhanced
+        if (enhancedPrompt !== userMessage.text) {
+          const transliterationInfo = {
+            id: Date.now() + 0.5,
+            text: `✨ Auto-converted: "${userMessage.text}" → "${enhancedPrompt}"`,
+            sender: "system",
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, transliterationInfo]);
+        }
+
+        // Call the Flask API
+        response = await fetch("http://localhost:5001/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: enhancedPrompt,
+            max_length: 150,
+            temperature: 0.7,
+            do_sample: true,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+
+        if (data.success) {
+          const botResponse = {
+            id: Date.now() + 1,
+            text: data.response || "I'm sorry, I couldn't generate a response.",
+            sender: "bot",
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botResponse]);
+        } else {
+          throw new Error(data.message || "Generation failed");
+        }
       }
     } catch (error) {
       console.error("Error calling API:", error);
@@ -284,7 +397,11 @@ const Chat = () => {
                 <div className="mb-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-n-4">
-                      Sample Nepali Prompts:
+                      {modelType === "lemmatizer"
+                        ? "Sample Nepali Text for Lemmatization:"
+                        : modelType === "ner"
+                        ? "Sample Nepali Text with Entities:"
+                        : "Sample Nepali Prompts:"}
                     </span>
                     <button
                       onClick={() => setShowSamples(!showSamples)}
@@ -316,7 +433,13 @@ const Chat = () => {
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyPress={handleKeyPress}
-                      placeholder={`Ask ${displayName} anything in Nepali or English...`}
+                      placeholder={
+                        modelType === "lemmatizer"
+                          ? "Enter Nepali text to lemmatize..."
+                          : modelType === "ner"
+                          ? "Enter Nepali text to find entities..."
+                          : `Ask ${displayName} anything in Nepali or English...`
+                      }
                       className="w-full bg-n-6/50 border border-n-5/50 rounded-xl px-3 py-2 text-n-1 placeholder-n-4 resize-none focus:outline-none focus:border-color-1 transition-colors text-sm"
                       rows="1"
                       disabled={isLoading}
@@ -366,12 +489,11 @@ const Chat = () => {
                 About {displayName}
               </h3>
               <p className="text-n-3 text-center leading-relaxed text-sm mb-4">
-                {displayName} is a Nepali language generation model fine-tuned
-                on Nepali text data. It can understand and generate text in the
-                Nepali language, helping with conversations, text completion,
-                and creative writing in Nepali. The model is based on
-                transformer architecture and is specifically trained for Nepali
-                language understanding.
+                {modelType === "lemmatizer"
+                  ? `${displayName} is a rule-based lemmatizer for Nepali words. It converts inflected words to their root forms (lemmas). For example, it can turn 'खाएको' into its base form 'खानु'. Perfect for Nepali language processing and text analysis.`
+                  : modelType === "ner"
+                  ? `${displayName} is a BERT-based model for Named Entity Recognition in Nepali text. It can identify and classify entities like people, places, organizations, and other important terms in Nepali text with high accuracy.`
+                  : `${displayName} is a Nepali language generation model fine-tuned on Nepali text data. It can understand and generate text in the Nepali language, helping with conversations, text completion, and creative writing in Nepali. The model is based on transformer architecture and is specifically trained for Nepali language understanding.`}
               </p>
 
               {/* Input Help Section */}
@@ -380,15 +502,38 @@ const Chat = () => {
                   💡 How to interact:
                 </h4>
                 <ul className="text-xs text-n-3 space-y-1">
-                  <li>• Type in Nepali script for best results</li>
-                  <li>• Use sample prompts above for quick start</li>
-                  <li>
-                    • English words like &quot;namaste&quot; will be
-                    auto-converted
-                  </li>
-                  <li>
-                    • Mix English and Nepali - the model understands both!
-                  </li>
+                  {modelType === "lemmatizer" ? (
+                    <>
+                      <li>
+                        • Type Nepali words or sentences to see their lemmatized
+                        forms
+                      </li>
+                      <li>• Use sample text above for quick demonstration</li>
+                      <li>• Works best with properly spelled Nepali words</li>
+                      <li>• Each word will be converted to its root form</li>
+                    </>
+                  ) : modelType === "ner" ? (
+                    <>
+                      <li>
+                        • Enter Nepali text containing names, places, or
+                        organizations
+                      </li>
+                      <li>• Use sample sentences above for quick testing</li>
+                      <li>• The model will identify and classify entities</li>
+                      <li>• Results show entity type and confidence level</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>• Type in Nepali script for best results</li>
+                      <li>• Use sample prompts above for quick start</li>
+                      <li>
+                        • English words like "namaste" will be auto-converted
+                      </li>
+                      <li>
+                        • Mix English and Nepali - the model understands both!
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
               <div className="flex justify-center mt-4">

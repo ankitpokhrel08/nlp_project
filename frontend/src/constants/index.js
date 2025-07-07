@@ -211,7 +211,7 @@ export const pricing = [
     description: "Custom AI chatbot, advanced analytics, dedicated account",
   },
   {
-    id: "2",
+    id: "3",
     title: "Anjal Satyal",
     description: "Custom AI chatbot, advanced analytics, dedicated account",
   },

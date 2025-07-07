@@ -3,6 +3,18 @@ from flask_cors import CORS
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 import logging
+import sys
+import os
+
+# Add the lemmatizer path to sys.path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'model', 'NepaliLemmatizer'))
+
+try:
+    from main import lemmatize_word
+    lemmatizer_available = True
+except ImportError as e:
+    logging.warning(f"Could not import lemmatizer: {e}")
+    lemmatizer_available = False
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -46,7 +58,8 @@ def health_check():
         "status": "healthy",
         "model_loaded": model is not None,
         "ner_loaded": ner_pipeline is not None,
-        "message": "NepaliGPT API is running"
+        "lemmatizer_loaded": lemmatizer_available,
+        "message": "NLP Models API is running"
     })
 
 @app.route('/generate', methods=['POST'])
@@ -171,6 +184,67 @@ def named_entity_recognition():
             "message": str(e)
         }), 500
 
+@app.route('/lemmatize', methods=['POST'])
+def lemmatize():
+    """Lemmatize Nepali words using NepaliLemmatizer"""
+    try:
+        # Check if lemmatizer is available
+        if not lemmatizer_available:
+            return jsonify({
+                "error": "Lemmatizer not available",
+                "message": "NepaliLemmatizer could not be loaded"
+            }), 503
+
+        # Get data from request
+        data = request.json
+        if not data:
+            return jsonify({"error": "No JSON data provided"}), 400
+            
+        text = data.get("text", "")
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
+        
+        logger.info(f"Lemmatizing text: {text[:50]}...")
+
+        # Split text into words and lemmatize each word
+        words = text.split()
+        lemmatized_words = []
+        
+        for word in words:
+            try:
+                lemma = lemmatize_word(word.strip())
+                lemmatized_words.append({
+                    "original": word,
+                    "lemma": lemma
+                })
+            except Exception as e:
+                logger.warning(f"Error lemmatizing word '{word}': {str(e)}")
+                # If lemmatization fails for a word, keep the original
+                lemmatized_words.append({
+                    "original": word,
+                    "lemma": word
+                })
+        
+        # Create the lemmatized text
+        lemmatized_text = " ".join([item["lemma"] for item in lemmatized_words])
+        
+        logger.info(f"Lemmatized {len(words)} words successfully!")
+
+        return jsonify({
+            "original_text": text,
+            "lemmatized_text": lemmatized_text,
+            "word_details": lemmatized_words,
+            "word_count": len(words),
+            "success": True
+        })
+
+    except Exception as e:
+        logger.error(f"Error during lemmatization: {str(e)}")
+        return jsonify({
+            "error": "Lemmatization failed",
+            "message": str(e)
+        }), 500
+
 @app.route('/model-info', methods=['GET'])
 def model_info():
     """Get information about the loaded models"""
@@ -193,6 +267,12 @@ def model_info():
             "model_type": "Named Entity Recognition",
             "description": "BERT-based model for Named Entity Recognition in Nepali text",
             "model_loaded": ner_pipeline is not None
+        },
+        "lemmatizer": {
+            "model_name": "NepaliLemmatizer",
+            "model_type": "Lemmatization",
+            "description": "Rule-based lemmatizer for Nepali words",
+            "model_loaded": lemmatizer_available
         }
     })
 

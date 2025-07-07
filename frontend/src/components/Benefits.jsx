@@ -30,7 +30,7 @@ const Benefits = () => {
       if (modelToUse.includes("Named Entity Recognition")) {
         navigate(`/ner/${urlFriendlyName}`);
       } else {
-        // Default to regular chat for other models (like NepaliGPT)
+        // Default to regular chat for other models (NepaliGPT and NepaliLemmatizer)
         navigate(`/chat/${urlFriendlyName}`);
       }
     }

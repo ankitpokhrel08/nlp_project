@@ -8,14 +8,6 @@ from Lemmatization.utility.reader import read_csv
 from Lemmatization.utility.reader import read_file
 
 
-def stem_with_hunspell(word):
-    import hunspell
-    huns_obj = hunspell.HunSpell(helper.get_nepali_dict_path(), helper.get_nepali_rules_path())
-    res = huns_obj.stem(word)
-    for r in res:
-        print(r.decode())
-
-
 def get_suffix_rules(lines: List[str]) -> List[Tuple[str, ...]]:
     """
     filters the lines starts with SFX, split each line to tuple

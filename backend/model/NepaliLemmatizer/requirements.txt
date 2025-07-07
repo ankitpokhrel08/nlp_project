@@ -4,5 +4,4 @@ numpy
 pandas
 nltk
 fuzzywuzzy
-hunspell
 streamlit
