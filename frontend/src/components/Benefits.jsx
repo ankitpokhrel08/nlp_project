@@ -25,7 +25,14 @@ const Benefits = () => {
     if (modelToUse) {
       // Convert title to URL-friendly format (lowercase, replace spaces with hyphens)
       const urlFriendlyName = modelToUse.toLowerCase().replace(/\s+/g, "-");
-      navigate(`/chat/${urlFriendlyName}`);
+
+      // Route to different chat interfaces based on model type
+      if (modelToUse.includes("Named Entity Recognition")) {
+        navigate(`/ner/${urlFriendlyName}`);
+      } else {
+        // Default to regular chat for other models (like NepaliGPT)
+        navigate(`/chat/${urlFriendlyName}`);
+      }
     }
   };
 

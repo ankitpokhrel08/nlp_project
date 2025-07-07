@@ -30,7 +30,8 @@ A full-stack web application that showcases Natural Language Processing projects
 
 - **Frontend**: http://localhost:5174
 - **Backend API**: http://localhost:5001
-- **Chat Interface**: http://localhost:5174/chat/nepali-gpt
+- **Chat Interface (NepaliGPT)**: http://localhost:5174/chat/nepali-gpt
+- **NER Interface (Entity Recognition)**: http://localhost:5174/ner/named-entity-recognition-for-nepali-using-bert-based-models
 
 ## 🛠 Tech Stack
 
@@ -149,11 +150,12 @@ Type common English words and they'll auto-convert:
 
 ### Backend API (http://localhost:5001)
 
-| Endpoint      | Method | Description                     |
-| ------------- | ------ | ------------------------------- |
-| `/health`     | GET    | Health check and model status   |
-| `/generate`   | POST   | Generate text using NepaliGPT   |
-| `/model-info` | GET    | Get model information and specs |
+| Endpoint      | Method | Description                         |
+| ------------- | ------ | ----------------------------------- |
+| `/health`     | GET    | Health check and model status       |
+| `/generate`   | POST   | Generate text using NepaliGPT       |
+| `/ner`        | POST   | Named Entity Recognition using BERT |
+| `/model-info` | GET    | Get model information and specs     |
 
 ### Example API Usage
 
@@ -165,6 +167,11 @@ curl http://localhost:5001/health
 curl -X POST http://localhost:5001/generate \
   -H "Content-Type: application/json" \
   -d '{"prompt": "नमस्ते", "max_length": 100, "temperature": 0.7}'
+
+# Named Entity Recognition
+curl -X POST http://localhost:5001/ner \
+  -H "Content-Type: application/json" \
+  -d '{"text": "काठमाडौं, पोखरा, लुम्बिनी नेपालका प्रसिद्ध ठाउँहरू हुन्।"}'
 ```
 
 ## 📁 Project Structure

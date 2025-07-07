@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Pricing from "./components/Pricing";
 import Chat from "./components/Chat";
+import NERChat from "./components/NERChat";
 import NotFound from "./components/NotFound";
 import OurMission from "./components/OurMission";
 
@@ -27,6 +28,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chat/:modelName" element={<Chat />} />
+          <Route path="/ner/:modelName" element={<NERChat />} />
           <Route path="/ourmission" element={<OurMission />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

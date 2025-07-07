@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 import logging
 
@@ -14,10 +14,11 @@ logger = logging.getLogger(__name__)
 # Global variables for model and tokenizer
 tokenizer = None
 model = None
+ner_pipeline = None
 
 def load_model():
     """Load the model and tokenizer"""
-    global tokenizer, model
+    global tokenizer, model, ner_pipeline
     try:
         logger.info("Loading NepaliGPT model and tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained("Shushant/thesis_nepaliGPT")
@@ -28,6 +29,11 @@ def load_model():
             tokenizer.pad_token = tokenizer.eos_token
             
         logger.info("Model and tokenizer loaded successfully!")
+        
+        logger.info("Loading NER model...")
+        ner_pipeline = pipeline("ner", model="bishaldpande/Ner-xlm-roberta-base")
+        logger.info("NER model loaded successfully!")
+        
         return True
     except Exception as e:
         logger.error(f"Error loading model: {str(e)}")
@@ -39,6 +45,7 @@ def health_check():
     return jsonify({
         "status": "healthy",
         "model_loaded": model is not None,
+        "ner_loaded": ner_pipeline is not None,
         "message": "NepaliGPT API is running"
     })
 
@@ -112,21 +119,81 @@ def generate():
             "message": str(e)
         }), 500
 
+@app.route('/ner', methods=['POST'])
+def named_entity_recognition():
+    """Perform Named Entity Recognition using BERT-based model"""
+    try:
+        # Check if NER model is loaded
+        if ner_pipeline is None:
+            return jsonify({
+                "error": "NER model not loaded",
+                "message": "Please wait for the NER model to load"
+            }), 503
+
+        # Get data from request
+        data = request.json
+        if not data:
+            return jsonify({"error": "No JSON data provided"}), 400
+            
+        text = data.get("text", "")
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
+        
+        logger.info(f"Performing NER on text: {text[:50]}...")
+
+        # Perform NER
+        entities = ner_pipeline(text)
+        
+        # Format entities for better readability
+        formatted_entities = []
+        for entity in entities:
+            formatted_entities.append({
+                "word": entity['word'],
+                "entity": entity['entity'],
+                "confidence": float(entity['score']),  # Convert numpy float32 to Python float
+                "start": int(entity['start']),        # Convert to Python int
+                "end": int(entity['end'])              # Convert to Python int
+            })
+        
+        logger.info(f"Found {len(formatted_entities)} entities")
+
+        return jsonify({
+            "text": text,
+            "entities": formatted_entities,
+            "entity_count": len(formatted_entities),
+            "success": True
+        })
+
+    except Exception as e:
+        logger.error(f"Error during NER: {str(e)}")
+        return jsonify({
+            "error": "NER failed",
+            "message": str(e)
+        }), 500
+
 @app.route('/model-info', methods=['GET'])
 def model_info():
-    """Get information about the loaded model"""
+    """Get information about the loaded models"""
     if model is None or tokenizer is None:
         return jsonify({
-            "error": "Model not loaded"
+            "error": "Models not loaded"
         }), 503
         
     return jsonify({
-        "model_name": "Shushant/thesis_nepaliGPT",
-        "model_type": "Causal Language Model",
-        "description": "A GPT model fine-tuned for Nepali language generation",
-        "vocab_size": tokenizer.vocab_size,
-        "max_position_embeddings": getattr(model.config, 'max_position_embeddings', 'N/A'),
-        "model_loaded": True
+        "nepali_gpt": {
+            "model_name": "Shushant/thesis_nepaliGPT",
+            "model_type": "Causal Language Model",
+            "description": "A GPT model fine-tuned for Nepali language generation",
+            "vocab_size": tokenizer.vocab_size,
+            "max_position_embeddings": getattr(model.config, 'max_position_embeddings', 'N/A'),
+            "model_loaded": True
+        },
+        "ner_model": {
+            "model_name": "bishaldpande/Ner-xlm-roberta-base",
+            "model_type": "Named Entity Recognition",
+            "description": "BERT-based model for Named Entity Recognition in Nepali text",
+            "model_loaded": ner_pipeline is not None
+        }
     })
 
 @app.errorhandler(404)
