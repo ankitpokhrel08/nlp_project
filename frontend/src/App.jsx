@@ -4,6 +4,7 @@ import Benefits from "./components/Benefits";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import About from "./components/About";
 import Pricing from "./components/Pricing";
 import Chat from "./components/Chat";
 import NERChat from "./components/NERChat";
@@ -15,8 +16,8 @@ const Home = () => (
   <>
     <Header />
     <Hero />
+    <About />
     <Benefits />
-    <Pricing />
     <Footer />
   </>
 );
@@ -24,7 +25,7 @@ const Home = () => (
 const App = () => {
   return (
     <>
-      <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
+      <div className="pt-[4.5rem] lg:pt-[5rem] overflow-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chat/:modelName" element={<Chat />} />
