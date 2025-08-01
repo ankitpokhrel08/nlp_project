@@ -8,30 +8,38 @@ export default {
     extend: {
       colors: {
         color: {
-          1: "#AC6AFF",
-          2: "#FFC876",
-          3: "#FF776F",
-          4: "#7ADB78",
-          5: "#858DFF",
-          6: "#FF98E2",
+          1: "#6B7280", // Muted gray
+          2: "#9CA3AF", // Light gray
+          3: "#4B5563", // Dark gray
+          4: "#374151", // Darker gray
+          5: "#1F2937", // Very dark gray
+          6: "#F3F4F6", // Very light gray
         },
         stroke: {
-          1: "#26242C",
+          1: "#E5E7EB",
         },
         n: {
-          1: "#FFFFFF",
-          2: "#CAC6DD",
-          3: "#ADA8C3",
-          4: "#757185",
-          5: "#3F3A52",
-          6: "#252134",
-          7: "#15131D",
-          8: "#0E0C15",
-          9: "#474060",
-          10: "#43435C",
-          11: "#1B1B2E",
-          12: "#2E2A41",
-          13: "#6C7275",
+          1: "#111827", // Dark text for light background
+          2: "#374151", // Dark gray
+          3: "#6B7280", // Medium gray
+          4: "#9CA3AF", // Light gray
+          5: "#D1D5DB", // Very light gray
+          6: "#F3F4F6", // Off-white
+          7: "#F9FAFB", // Near white
+          8: "#FFFFFF", // Pure white
+          9: "#E5E7EB", // Light border
+          10: "#F3F4F6", // Card background
+          11: "#FFFFFF", // Pure white background
+          12: "#F9FAFB", // Section background
+          13: "#6B7280", // Medium text
+        },
+        // Brand colors from brainwave theme
+        brand: {
+          primary: "#00AEEF", // Bright blue - primary brand color
+          secondary: "#DD734F", // Orange - secondary brand color
+          accent: "#B9AEDF", // Purple - accent color
+          warning: "#FFC876", // Gold/Yellow - warning/highlight
+          danger: "#FF776F", // Coral - danger/error
         },
       },
       fontFamily: {
@@ -69,7 +77,7 @@ export default {
       backgroundImage: {
         "radial-gradient": "radial-gradient(var(--tw-gradient-stops))",
         "conic-gradient":
-          "conic-gradient(from 225deg, #FFC876, #79FFF7, #9F53FF, #FF98E2, #FFC876)",
+          "conic-gradient(from 225deg, #9CA3AF, #6B7280, #4B5563, #374151, #9CA3AF)",
       },
     },
   },
