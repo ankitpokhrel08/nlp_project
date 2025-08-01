@@ -1,8 +1,6 @@
 import { benefits } from "../constants";
 import Heading from "./Heading";
 import Section from "./Section";
-import { GradientLight } from "./design/Benefits";
-import ClipPath from "../assets/svg/ClipPath";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -69,10 +67,7 @@ const Benefits = () => {
           <div className="flex flex-wrap gap-10 mb-10">
             {benefits.map((item) => (
               <div
-                className="block relative p-0.5 bg-no-repeat bg-[length:100%_100%] md:max-w-[24rem] cursor-pointer transition-transform hover:scale-105"
-                style={{
-                  backgroundImage: `url(${item.backgroundUrl})`,
-                }}
+                className="block relative border border-gray-300 rounded-2xl md:max-w-[24rem] cursor-pointer transition-transform hover:scale-105 hover:border-gray-400 bg-white"
                 key={item.id}
                 onClick={(e) => {
                   // Only open popup if clicking on the card itself, not on buttons
@@ -85,8 +80,12 @@ const Benefits = () => {
                 }}
               >
                 <div className="relative z-2 flex flex-col min-h-[22rem] p-[2.4rem] pointer-events-none card-content">
-                  <h5 className="h5 mb-5">{item.title}</h5>
-                  <p className="body-2 mb-6 text-n-3">{item.description}</p>
+                  <h5 className="text-xl font-semibold mb-5 text-gray-900">
+                    {item.title}
+                  </h5>
+                  <p className="text-base text-n-3 mb-6 leading-relaxed">
+                    {item.description}
+                  </p>
                   <div className="flex items-center justify-between mt-auto pointer-events-auto">
                     {/* <img
                     src={item.iconUrl}
@@ -100,37 +99,19 @@ const Benefits = () => {
                           e.stopPropagation();
                           openPopup(item);
                         }}
-                        className="px-4 py-2 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-lg transition-all duration-200 font-code text-xs font-semibold border border-n-5/50 hover:border-n-4"
+                        className="px-4 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm border border-brand-primary"
                       >
                         Learn more
                       </button>
                       <button
                         onClick={(e) => handleTryNow(e, item.title)}
-                        className="px-4 py-2 bg-gradient-to-r from-color-1 to-color-2 text-n-1 rounded-lg hover:opacity-90 hover:scale-105 transition-all duration-200 font-code text-xs font-semibold shadow-lg"
+                        className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-all duration-200 font-medium text-sm border border-brand-primary hover:border-brand-secondary"
                       >
                         Try Now
                       </button>
                     </div>
                   </div>
                 </div>
-                {item.light && <GradientLight />}
-                <div
-                  className="absolute inset-0.5 bg-n-8"
-                  style={{ clipPath: "url(#benefits)" }}
-                >
-                  <div className="absolute inset-0 opacity-0 transition-opacity hover:opacity-10">
-                    {item.imageUrl && (
-                      <img
-                        src={item.imageUrl}
-                        width={380}
-                        height={362}
-                        alt={item.title}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
-                </div>
-                <ClipPath />{" "}
               </div>
             ))}
           </div>
@@ -151,7 +132,7 @@ const Benefits = () => {
             {/* Source Code Button */}
             <button
               onClick={handleSourceCode}
-              className="absolute top-4 right-4 px-4 py-2 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-lg transition-all duration-200 font-code text-xs font-semibold border border-n-5/50 hover:border-n-4 z-10"
+              className="absolute top-4 right-4 px-4 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm border border-brand-primary z-10"
             >
               Source Code
             </button>
@@ -160,44 +141,24 @@ const Benefits = () => {
             <div className="overflow-y-auto p-8">
               {/* Popup Content */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 mb-6 flex items-center justify-center rounded-3xl bg-gradient-to-br from-color-1 via-color-2 to-color-3 shadow-lg">
-                  <img
-                    src={selectedBenefit.iconUrl}
-                    width={40}
-                    height={40}
-                    alt={selectedBenefit.title}
-                    className="filter brightness-0 invert"
-                  />
-                </div>
-
-                <h3 className="h3 mb-4 text-n-1 bg-gradient-to-r from-color-1 to-color-2 bg-clip-text text-transparent">
+                <h3 className="text-2xl font-bold mb-6 text-n-1">
                   {selectedBenefit.title}
                 </h3>
 
-                <p className="body-1 text-n-3 mb-8 leading-relaxed max-w-lg">
+                <p className="text-base text-n-3 mb-8 leading-relaxed max-w-lg">
                   {selectedBenefit.text}
                 </p>
-
-                {selectedBenefit.imageUrl && (
-                  <div className="w-full max-w-md mb-8 rounded-2xl overflow-hidden shadow-xl">
-                    <img
-                      src={selectedBenefit.imageUrl}
-                      alt={selectedBenefit.title}
-                      className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                )}
 
                 <div className="flex items-center justify-center gap-4">
                   <button
                     onClick={closePopup}
-                    className="px-8 py-3 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-xl transition-all duration-200 font-code text-sm font-semibold border border-n-5/50 hover:border-n-4"
+                    className="px-8 py-3 bg-white hover:bg-brand-danger text-brand-danger hover:text-white rounded-xl transition-all duration-200 font-medium text-base border border-brand-danger"
                   >
                     Close
                   </button>
                   <button
                     onClick={(e) => handleTryNow(e)}
-                    className="px-8 py-3 bg-gradient-to-r from-color-1 to-color-2 text-n-1 rounded-xl hover:opacity-90 hover:scale-105 transition-all duration-200 font-code text-sm font-semibold shadow-lg"
+                    className="px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl transition-all duration-200 font-medium text-base border border-brand-primary hover:border-brand-secondary"
                   >
                     Try Now
                   </button>

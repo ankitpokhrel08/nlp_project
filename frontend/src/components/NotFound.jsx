@@ -17,7 +17,7 @@ const NotFound = () => {
       <Section className="min-h-screen flex items-center justify-center">
         <div className="container relative z-2 text-center">
           <div className="max-w-lg mx-auto">
-            <div className="w-32 h-32 mx-auto mb-8 flex items-center justify-center rounded-full bg-gradient-to-br from-color-1 via-color-2 to-color-3">
+            <div className="w-32 h-32 mx-auto mb-8 flex items-center justify-center rounded-full bg-n-6">
               <span className="text-6xl">🤖</span>
             </div>
 
@@ -31,7 +31,7 @@ const NotFound = () => {
             <div className="flex justify-center gap-4">
               <Button
                 onClick={goHome}
-                className="px-8 py-3 bg-gradient-to-r from-color-1 to-color-2"
+                className="px-8 py-3 bg-n-6 hover:bg-n-5 text-n-1 rounded-lg border border-n-5/50"
               >
                 Go Home
               </Button>

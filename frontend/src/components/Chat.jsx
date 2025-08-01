@@ -306,7 +306,7 @@ const Chat = () => {
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={goBack}
-              className="flex items-center gap-2 px-3 py-2 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-lg transition-all duration-200 font-code text-xs font-semibold border border-n-5/50 hover:border-n-4"
+              className="flex items-center gap-2 px-3 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-code text-xs font-semibold border border-brand-primary"
             >
               <svg
                 className="w-3 h-3"
@@ -323,7 +323,7 @@ const Chat = () => {
               </svg>
               Back
             </button>
-            <h2 className="h5 text-center text-n-1 bg-gradient-to-r from-color-1 to-color-2 bg-clip-text text-transparent">
+            <h2 className="text-xl font-semibold text-center text-n-1">
               Chat with {displayName}
             </h2>
             <div className="w-16" /> {/* Spacer for centering */}
@@ -331,7 +331,7 @@ const Chat = () => {
 
           {/* Chat Container */}
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="bg-white border border-n-5 rounded-2xl overflow-hidden shadow-lg">
               {/* Chat Messages */}
               <div className="h-64 md:h-80 overflow-y-auto p-3 md:p-4 space-y-3">
                 {messages.map((message) => (
@@ -348,13 +348,13 @@ const Chat = () => {
                     <div
                       className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-3 md:px-4 py-2 md:py-3 ${
                         message.sender === "user"
-                          ? "bg-gradient-to-r from-color-1 to-color-2 text-n-1"
+                          ? "bg-n-6 text-n-1"
                           : message.sender === "system"
-                          ? "bg-color-3/20 text-n-2 border border-color-3/30 text-center"
-                          : "bg-n-6/80 text-n-1 border border-n-5/50"
+                          ? "bg-n-7 text-n-2 border border-n-5 text-center"
+                          : "bg-n-6 text-n-1 border border-n-5"
                       }`}
                     >
-                      <p className="text-sm md:text-base leading-relaxed">
+                      <p className="text-base leading-relaxed">
                         {message.text}
                       </p>
                       <span className="text-xs opacity-70 mt-1 block">
@@ -370,7 +370,7 @@ const Chat = () => {
                 {/* Loading indicator */}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-n-6/80 text-n-1 border border-n-5/50 rounded-2xl px-4 py-3">
+                    <div className="bg-n-6 text-n-1 border border-n-5 rounded-2xl px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className="flex gap-1">
                           <div className="w-2 h-2 bg-n-3 rounded-full animate-bounce"></div>
@@ -392,7 +392,7 @@ const Chat = () => {
                 <div ref={messagesEndRef} />
               </div>{" "}
               {/* Input Area */}
-              <div className="border-t border-n-6/50 p-3">
+              <div className="border-t border-n-5 p-3">
                 {/* Sample Prompts */}
                 <div className="mb-3">
                   <div className="flex items-center justify-between mb-2">
@@ -405,7 +405,7 @@ const Chat = () => {
                     </span>
                     <button
                       onClick={() => setShowSamples(!showSamples)}
-                      className="text-xs text-color-1 hover:text-color-2 transition-colors"
+                      className="text-xs text-n-4 hover:text-n-3 transition-colors"
                     >
                       {showSamples ? "Hide" : "Show"} Examples
                     </button>
@@ -417,7 +417,7 @@ const Chat = () => {
                         <button
                           key={index}
                           onClick={() => handleSamplePrompt(prompt)}
-                          className="text-left p-2 bg-n-6/30 hover:bg-n-6/50 border border-n-5/30 hover:border-n-5/50 rounded-lg text-xs text-n-2 hover:text-n-1 transition-all duration-200"
+                          className="text-left p-2 bg-n-6 hover:bg-n-5 border border-n-5 hover:border-n-4 rounded-lg text-xs text-n-2 hover:text-n-1 transition-all duration-200"
                         >
                           {prompt}
                         </button>
@@ -440,7 +440,7 @@ const Chat = () => {
                           ? "Enter Nepali text to find entities..."
                           : `Ask ${displayName} anything in Nepali or English...`
                       }
-                      className="w-full bg-n-6/50 border border-n-5/50 rounded-xl px-3 py-2 text-n-1 placeholder-n-4 resize-none focus:outline-none focus:border-color-1 transition-colors text-sm"
+                      className="w-full bg-n-7 border border-n-5 rounded-xl px-3 py-2 text-n-1 placeholder-n-4 resize-none focus:outline-none focus:border-n-4 transition-colors text-sm"
                       rows="1"
                       disabled={isLoading}
                     />
@@ -453,7 +453,7 @@ const Chat = () => {
                         href="https://www.google.com/inputtools/try/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-color-1 hover:text-color-2 underline"
+                        className="text-n-4 hover:text-n-3 underline"
                       >
                         Google Input Tools
                       </a>
@@ -462,7 +462,7 @@ const Chat = () => {
                   <Button
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim() || isLoading}
-                    className="w-full md:w-auto px-4 py-2 bg-gradient-to-r from-color-1 to-color-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full md:w-auto px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-brand-primary hover:border-brand-secondary"
                   >
                     Send
                   </Button>
@@ -472,7 +472,7 @@ const Chat = () => {
                 <div className="mt-3 text-center">
                   <p className="text-xs text-n-4">
                     Currently chatting with{" "}
-                    <span className="text-color-1 font-semibold">
+                    <span className="text-n-3 font-semibold">
                       {displayName}
                     </span>{" "}
                     NLP Model
@@ -484,11 +484,11 @@ const Chat = () => {
 
           {/* Model Information Card */}
           <div className="max-w-4xl mx-auto mt-6">
-            <div className="bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl p-4">
-              <h3 className="h5 mb-3 text-n-1 text-center">
+            <div className="bg-white border border-n-5 rounded-2xl p-4">
+              <h3 className="text-xl font-semibold mb-3 text-n-1 text-center">
                 About {displayName}
               </h3>
-              <p className="text-n-3 text-center leading-relaxed text-sm mb-4">
+              <p className="text-n-3 text-center leading-relaxed text-base mb-4">
                 {modelType === "lemmatizer"
                   ? `${displayName} is a rule-based lemmatizer for Nepali words. It converts inflected words to their root forms (lemmas). For example, it can turn 'खाएको' into its base form 'खानु'. Perfect for Nepali language processing and text analysis.`
                   : modelType === "ner"
@@ -497,7 +497,7 @@ const Chat = () => {
               </p>
 
               {/* Input Help Section */}
-              <div className="bg-n-6/30 border border-n-5/30 rounded-xl p-3 mb-4">
+              <div className="bg-n-7 border border-n-5 rounded-xl p-3 mb-4">
                 <h4 className="text-sm font-semibold text-n-1 mb-2">
                   💡 How to interact:
                 </h4>
@@ -539,7 +539,7 @@ const Chat = () => {
               <div className="flex justify-center mt-4">
                 <button
                   onClick={handleSourceCode}
-                  className="px-4 py-2 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-lg transition-all duration-200 font-code text-sm font-semibold border border-n-5/50 hover:border-n-4"
+                  className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-all duration-200 font-code text-sm font-semibold border border-brand-primary hover:border-brand-secondary"
                 >
                   Source Code
                 </button>

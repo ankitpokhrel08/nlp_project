@@ -44,12 +44,12 @@ const OurMission = () => {
           {/* Mission Content */}
           <div className="max-w-4xl mx-auto">
             {/* Why We Built This Project */}
-            <div className="bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-2xl">
+            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-gradient-to-br from-color-1 via-color-2 to-color-3 shadow-lg">
+                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
                   <span className="text-3xl md:text-4xl">🎯</span>
                 </div>
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1 bg-gradient-to-r from-color-1 to-color-2 bg-clip-text text-transparent">
+                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   Why We Built This Project
                 </h2>
                 <p className="body-2 md:body-1 text-n-3 leading-relaxed">
@@ -63,12 +63,12 @@ const OurMission = () => {
             </div>
 
             {/* The Idea Behind Our Project */}
-            <div className="bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-2xl">
+            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-gradient-to-br from-color-2 via-color-3 to-color-4 shadow-lg">
+                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
                   <span className="text-3xl md:text-4xl">💡</span>
                 </div>
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1 bg-gradient-to-r from-color-2 to-color-3 bg-clip-text text-transparent">
+                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   The Idea Behind Our Project
                 </h2>
                 <p className="body-2 md:body-1 text-n-3 leading-relaxed">
@@ -82,17 +82,17 @@ const OurMission = () => {
             </div>
 
             {/* How We Did It */}
-            <div className="bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-2xl">
+            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-gradient-to-br from-color-3 via-color-4 to-color-1 shadow-lg">
+                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
                   <span className="text-3xl md:text-4xl">🛠️</span>
                 </div>
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1 bg-gradient-to-r from-color-3 to-color-4 bg-clip-text text-transparent">
+                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   How We Did It
                 </h2>
                 <div className="text-left space-y-3 md:space-y-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-color-1 text-n-1 text-sm font-semibold">
+                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-n-6 text-n-1 text-sm font-semibold">
                       1
                     </div>
                     <div>
@@ -106,7 +106,7 @@ const OurMission = () => {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-color-2 text-n-1 text-sm font-semibold">
+                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-n-6 text-n-1 text-sm font-semibold">
                       2
                     </div>
                     <div>
@@ -121,7 +121,7 @@ const OurMission = () => {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-color-3 text-n-1 text-sm font-semibold">
+                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-n-6 text-n-1 text-sm font-semibold">
                       3
                     </div>
                     <div>
@@ -140,12 +140,12 @@ const OurMission = () => {
             </div>
 
             {/* Our Vision */}
-            <div className="bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl">
+            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-lg">
               <div className="text-center">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-gradient-to-br from-color-4 via-color-1 to-color-2 shadow-lg">
+                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
                   <span className="text-3xl md:text-4xl">🚀</span>
                 </div>
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1 bg-gradient-to-r from-color-4 to-color-1 bg-clip-text text-transparent">
+                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   Our Vision for the Future
                 </h2>
                 <p className="body-2 md:body-1 text-n-3 leading-relaxed mb-4 md:mb-6">
@@ -159,7 +159,7 @@ const OurMission = () => {
                 <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4">
                   <Button
                     onClick={goBack}
-                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-gradient-to-r from-color-1 to-color-2"
+                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-n-6 hover:bg-n-5 text-n-1 rounded-lg border border-n-5/50"
                   >
                     Explore Projects
                   </Button>
