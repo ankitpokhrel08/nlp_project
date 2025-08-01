@@ -62,12 +62,18 @@ const Benefits = () => {
     <>
       <Section id="features">
         <div className="container relative z-2">
-          <Heading className="md:max-w-md lg:max-w-2xl" title="The Projects" />
+          <div className="relative max-w-[50rem] mx-auto mb-12 lg:mb-20 md:text-center">
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                The Projects
+              </h2>
+            </div>
+          </div>
 
-          <div className="flex flex-wrap gap-10 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10">
             {benefits.map((item) => (
               <div
-                className="block relative border border-gray-300 rounded-2xl md:max-w-[24rem] cursor-pointer transition-transform hover:scale-105 hover:border-gray-400 bg-white"
+                className="block relative border border-gray-300 rounded-2xl cursor-pointer transition-transform hover:border-gray-400 bg-white hover:shadow-lg w-full"
                 key={item.id}
                 onClick={(e) => {
                   // Only open popup if clicking on the card itself, not on buttons
@@ -79,33 +85,33 @@ const Benefits = () => {
                   }
                 }}
               >
-                <div className="relative z-2 flex flex-col min-h-[22rem] p-[2.4rem] pointer-events-none card-content">
-                  <h5 className="text-xl font-semibold mb-5 text-gray-900">
+                <div className="relative z-2 flex flex-col min-h-[22rem] p-4 sm:p-6 lg:p-[2.4rem] pointer-events-none card-content">
+                  <h5 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-5 text-gray-900">
                     {item.title}
                   </h5>
-                  <p className="text-base text-n-3 mb-6 leading-relaxed">
+                  <p className="text-sm sm:text-base text-n-3 mb-4 sm:mb-6 leading-relaxed flex-grow">
                     {item.description}
                   </p>
-                  <div className="flex items-center justify-between mt-auto pointer-events-auto">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 mt-auto pointer-events-auto">
                     {/* <img
                     src={item.iconUrl}
                     width={48}
                     height={48}
                     alt={item.title}
                   /> */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           openPopup(item);
                         }}
-                        className="px-4 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm border border-brand-primary"
+                        className="px-3 sm:px-4 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm border border-brand-primary flex-1 sm:flex-none"
                       >
                         Learn more
                       </button>
                       <button
                         onClick={(e) => handleTryNow(e, item.title)}
-                        className="px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-all duration-200 font-medium text-sm border border-brand-primary hover:border-brand-secondary"
+                        className="px-3 sm:px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm border border-brand-primary hover:border-brand-secondary flex-1 sm:flex-none"
                       >
                         Try Now
                       </button>
@@ -121,44 +127,44 @@ const Benefits = () => {
       {/* Popup Modal - Moved outside to avoid z-index issues */}
       {selectedBenefit && (
         <div
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-n-8/90 backdrop-blur-sm animate-in fade-in duration-300 p-4"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-n-8/90 backdrop-blur-sm animate-in fade-in duration-300 p-4 sm:p-6"
           style={{ isolation: "isolate" }}
           onClick={closePopup}
         >
           <div
-            className="relative max-w-2xl w-full max-h-[90vh] bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-3xl shadow-2xl animate-in zoom-in-95 duration-300 overflow-hidden flex flex-col"
+            className="relative max-w-2xl w-full max-h-[90vh] bg-gradient-to-br from-n-7 to-n-8 border border-n-6/50 rounded-2xl sm:rounded-3xl shadow-2xl animate-in zoom-in-95 duration-300 overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Source Code Button */}
             <button
               onClick={handleSourceCode}
-              className="absolute top-4 right-4 px-4 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm border border-brand-primary z-10"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 px-3 sm:px-4 py-2 bg-white hover:bg-brand-primary text-brand-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-xs sm:text-sm border border-brand-primary z-10"
             >
               Source Code
             </button>
 
             {/* Scrollable Content */}
-            <div className="overflow-y-auto p-8">
+            <div className="overflow-y-auto p-4 sm:p-6 lg:p-8">
               {/* Popup Content */}
               <div className="flex flex-col items-center text-center">
-                <h3 className="text-2xl font-bold mb-6 text-n-1">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-n-1 pr-20 sm:pr-24">
                   {selectedBenefit.title}
                 </h3>
 
-                <p className="text-base text-n-3 mb-8 leading-relaxed max-w-lg">
+                <p className="text-sm sm:text-base text-n-3 mb-6 sm:mb-8 leading-relaxed max-w-lg">
                   {selectedBenefit.text}
                 </p>
 
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
                   <button
                     onClick={closePopup}
-                    className="px-8 py-3 bg-white hover:bg-brand-danger text-brand-danger hover:text-white rounded-xl transition-all duration-200 font-medium text-base border border-brand-danger"
+                    className="px-6 sm:px-8 py-3 bg-white hover:bg-brand-danger text-brand-danger hover:text-white rounded-xl transition-all duration-200 font-medium text-sm sm:text-base border border-brand-danger"
                   >
                     Close
                   </button>
                   <button
                     onClick={(e) => handleTryNow(e)}
-                    className="px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl transition-all duration-200 font-medium text-base border border-brand-primary hover:border-brand-secondary"
+                    className="px-6 sm:px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white rounded-xl transition-all duration-200 font-medium text-sm sm:text-base border border-brand-primary hover:border-brand-secondary"
                   >
                     Try Now
                   </button>

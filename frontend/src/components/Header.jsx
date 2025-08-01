@@ -80,28 +80,36 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 border-b border-n-5 bg-white/90 backdrop-blur-sm transition-transform duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 w-full z-50 border-b border-gray-200/50 bg-white/95 backdrop-blur-md transition-all duration-300 ease-in-out shadow-sm ${
         isVisible ? "translate-y-0" : "-translate-y-full"
-      } ${openNavigation ? "bg-white" : "bg-white/90 backdrop-blur-sm"}`}
+      } ${
+        openNavigation ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-md"
+      }`}
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <a
-          className="block w-[12rem] xl:mr-8"
+          className="block w-[9rem] xl:mr-8 group"
           href="#hero"
           onClick={(e) => {
             e.preventDefault();
             handleNavClick("#hero");
           }}
         >
-          <img src={brainwave} width={190} height={40} alt="Brainwave" />
+          <img
+            src={brainwave}
+            width={90}
+            height={18}
+            alt="Brainwave"
+            className="transition-transform duration-200"
+          />
         </a>
 
         <nav
           className={`${
             openNavigation ? "flex" : "hidden"
-          } fixed top-[5rem] left-0 right-0 bottom-0 bg-white lg:static lg:flex lg:mx-auto lg:bg-transparent`}
+          } fixed top-[5rem] left-0 right-0 bottom-0 bg-white/100 shadow-2xl backdrop-blur-sm lg:static lg:flex lg:mx-auto lg:bg-transparent lg:shadow-none lg:backdrop-blur-none`}
         >
-          <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
+          <div className="relative z-10 flex flex-col items-center justify-center m-auto lg:flex-row bg-white/100 lg:bg-transparent w-full lg:w-auto">
             {navigation.map((item) =>
               item.external ? (
                 <a
@@ -113,9 +121,9 @@ const Header = () => {
                     e.preventDefault();
                     handleNavClick(item.url, true);
                   }}
-                  className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-brand-primary ${
+                  className={`block relative font-semibold text-2xl uppercase text-gray-900 transition-colors duration-300 hover:text-brand-primary ${
                     item.onlyMobile ? "lg:hidden" : ""
-                  } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-base lg:font-semibold lg:text-n-2/70 lg:leading-5 lg:hover:text-brand-primary xl:px-12`}
+                  } px-6 py-4 md:py-6 lg:-mr-0.25 lg:text-base lg:font-semibold lg:text-gray-700 lg:leading-5 lg:hover:text-brand-primary xl:px-12`}
                 >
                   {item.title}
                 </a>
@@ -127,12 +135,12 @@ const Header = () => {
                     e.preventDefault();
                     handleNavClick(item.url);
                   }}
-                  className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-brand-primary ${
+                  className={`block relative font-semibold text-2xl uppercase text-gray-900 transition-colors duration-300 hover:text-brand-primary ${
                     item.onlyMobile ? "lg:hidden" : ""
-                  } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-base lg:font-semibold ${
+                  } px-6 py-4 md:py-6 lg:-mr-0.25 lg:text-base lg:font-semibold ${
                     item.url === location.hash
                       ? "z-2 lg:text-brand-primary"
-                      : "lg:text-n-2/70"
+                      : "lg:text-gray-700"
                   } lg:leading-5 lg:hover:text-brand-primary xl:px-12`}
                 >
                   {item.title}

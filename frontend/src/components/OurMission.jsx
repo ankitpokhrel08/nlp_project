@@ -20,7 +20,7 @@ const OurMission = () => {
           <div className="flex items-center justify-between mb-6 md:mb-8">
             <button
               onClick={goBack}
-              className="flex items-center gap-2 px-3 md:px-4 py-2 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-lg transition-all duration-200 font-code text-xs md:text-sm font-semibold border border-n-5/50 hover:border-n-4"
+              className="flex items-center gap-2 px-3 md:px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-all duration-200 font-code text-xs md:text-sm font-semibold border border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
             >
               <svg
                 className="w-3 md:w-4 h-3 md:h-4"
@@ -46,9 +46,6 @@ const OurMission = () => {
             {/* Why We Built This Project */}
             <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
-                  <span className="text-3xl md:text-4xl">🎯</span>
-                </div>
                 <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   Why We Built This Project
                 </h2>
@@ -65,9 +62,6 @@ const OurMission = () => {
             {/* The Idea Behind Our Project */}
             <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
-                  <span className="text-3xl md:text-4xl">💡</span>
-                </div>
                 <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   The Idea Behind Our Project
                 </h2>
@@ -84,9 +78,6 @@ const OurMission = () => {
             {/* How We Did It */}
             <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
               <div className="text-center mb-6 md:mb-8">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
-                  <span className="text-3xl md:text-4xl">🛠️</span>
-                </div>
                 <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   How We Did It
                 </h2>
@@ -142,9 +133,6 @@ const OurMission = () => {
             {/* Our Vision */}
             <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-lg">
               <div className="text-center">
-                <div className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 md:mb-6 flex items-center justify-center rounded-2xl md:rounded-3xl bg-n-6 shadow-lg">
-                  <span className="text-3xl md:text-4xl">🚀</span>
-                </div>
                 <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
                   Our Vision for the Future
                 </h2>
@@ -159,7 +147,7 @@ const OurMission = () => {
                 <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4">
                   <Button
                     onClick={goBack}
-                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-n-6 hover:bg-n-5 text-n-1 rounded-lg border border-n-5/50"
+                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg border border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
                   >
                     Explore Projects
                   </Button>
@@ -170,7 +158,7 @@ const OurMission = () => {
                         "_blank"
                       )
                     }
-                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-n-6/80 hover:bg-n-5 text-n-1 rounded-xl transition-all duration-200 font-code text-sm font-semibold border border-n-5/50 hover:border-n-4"
+                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-white hover:bg-gray-50 text-brand-primary hover:text-brand-secondary rounded-lg transition-all duration-200 font-code text-sm font-semibold border-2 border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
                   >
                     View Source Code
                   </button>
