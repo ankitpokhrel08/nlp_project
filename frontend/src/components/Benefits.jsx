@@ -29,6 +29,8 @@ const Benefits = () => {
         navigate(`/ner/${urlFriendlyName}`);
       } else if (modelToUse.includes("Morphological Analyzer")) {
         navigate(`/chat/${urlFriendlyName}`);
+      } else if (modelToUse.includes("Aspect-Based Sentiment Analysis")) {
+        navigate(`/chat/${urlFriendlyName}`);
       } else {
         // Default to regular chat for other models (NepaliGPT and NepaliLemmatizer)
         navigate(`/chat/${urlFriendlyName}`);

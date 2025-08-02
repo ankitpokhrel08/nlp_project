@@ -87,16 +87,23 @@ The frontend will start on **http://localhost:5174**
 - **Database**: Built on Brihat Nepali Shabdakosh with 20,000+ root words
 - **Use Cases**: Linguistic research, grammar checking, educational tools
 
+### 5. **Aspect-Based Sentiment Analysis** - Opinion Mining
+
+- **Model**: `Karinkato/Aspect_based_sentiment_analysis`
+- **Description**: BERT-based model for fine-grained sentiment analysis of Nepali text
+- **Capabilities**: Identifies aspect categories (GENERAL, FEEDBACK, PROFANITY, VIOLENCE) and analyzes sentiments
+- **Architecture**: Built on NepalBERT for optimized Nepali language understanding
+- **Use Cases**: Social media monitoring, content moderation, public opinion analysis, political text analysis
+
 ## 🌐 API Endpoints
 
-| Endpoint      | Method | Description                   |
-| ------------- | ------ | ----------------------------- |
-| `/health`     | GET    | Health check and model status |
-| `/generate`   | POST   | NepaliGPT text generation     |
-| `/ner`        | POST   | Named Entity Recognition      |
-| `/lemmatize`  | POST   | Lemmatization of Nepali text  |
-| `/stemmer`    | POST   | Morphological analysis        |
-| `/model-info` | GET    | Model information and specs   |
+| Endpoint      | Method | Description                     |
+| ------------- | ------ | ------------------------------- |
+| `/generate`   | POST   | NepaliGPT text generation       |
+| `/ner`        | POST   | Named Entity Recognition        |
+| `/lemmatize`  | POST   | Lemmatization of Nepali text    |
+| `/stemmer`    | POST   | Morphological analysis          |
+| `/aspect`     | POST   | Aspect-based sentiment analysis |
 
 ## 🤝 Contributing
 
@@ -137,4 +144,4 @@ Join us in building the most comprehensive Nepali NLP platform! 🇳🇵
 
 ---
 
-**Made with ❤️ for the Nepali NLP community**
+**Made with ❤️ for the Nepali NLP community by PUL079BCTA**

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, BertTokenizer, BertForSequenceClassification
 import torch
 import logging
 import sys
@@ -39,6 +39,8 @@ tokenizer = None
 model = None
 ner_pipeline = None
 stemmer = None
+aspect_tokenizer = None
+aspect_model = None
 
 def load_model():
     """Load the model and tokenizer"""
@@ -71,6 +73,23 @@ def load_model():
             except Exception as e:
                 logger.error(f"Error loading stemmer: {str(e)}")
         
+        # Load Aspect-Based Sentiment Analysis model
+        logger.info("Loading Aspect-Based Sentiment Analysis model...")
+        try:
+            global aspect_tokenizer, aspect_model
+            model_name = "Karinkato/Aspect_based_sentiment_analysis"
+            aspect_tokenizer = BertTokenizer.from_pretrained(model_name)
+            aspect_model = BertForSequenceClassification.from_pretrained(model_name)
+            
+            # Set device to GPU if available
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            aspect_model.to(device)
+            aspect_model.eval()
+            
+            logger.info("Aspect-Based Sentiment Analysis model loaded successfully!")
+        except Exception as e:
+            logger.error(f"Error loading aspect model: {str(e)}")
+        
         return True
     except Exception as e:
         logger.error(f"Error loading model: {str(e)}")
@@ -85,6 +104,7 @@ def health_check():
         "ner_loaded": ner_pipeline is not None,
         "lemmatizer_loaded": lemmatizer_available,
         "stemmer_loaded": stemmer is not None,
+        "aspect_loaded": aspect_model is not None,
         "message": "NLP Models API is running"
     })
 
@@ -380,6 +400,102 @@ def analyze_stemmer():
             "message": str(e)
         }), 500
 
+@app.route('/aspect', methods=['POST'])
+def aspect_analysis():
+    """Perform aspect-based sentiment analysis on Nepali text"""
+    try:
+        # Check if model is loaded
+        if aspect_model is None or aspect_tokenizer is None:
+            return jsonify({
+                "error": "Aspect model not loaded",
+                "message": "Please wait for the aspect model to load"
+            }), 503
+
+        # Get the input text
+        data = request.get_json()
+        if not data or 'text' not in data:
+            return jsonify({
+                "error": "Missing text input",
+                "message": "Please provide 'text' in the request body"
+            }), 400
+
+        text = data['text'].strip()
+        if not text:
+            return jsonify({
+                "error": "Empty text",
+                "message": "Please provide non-empty text"
+            }), 400
+
+        logger.info(f"Performing aspect analysis on: {text}")
+
+        # Split text into sentences for analysis
+        sentences = [s.strip() for s in re.split(r'[।\.\!\?]', text) if s.strip()]
+        if not sentences:
+            sentences = [text]  # If no sentence delimiters found, treat as single sentence
+
+        # Labels mapping used during training
+        labels_mapping = ["FEEDBACK", "GENERAL", "PROFANITY", "VIOLENCE"]
+        
+        predictions = []
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        for sentence in sentences:
+            if not sentence.strip():
+                continue
+                
+            # Tokenize the sentence
+            inputs = aspect_tokenizer(
+                sentence, 
+                return_tensors='pt', 
+                padding=True, 
+                truncation=True, 
+                max_length=128
+            )
+
+            # Move inputs to the same device as the model
+            inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
+
+            # Get predictions from the model
+            with torch.no_grad():
+                outputs = aspect_model(**inputs)
+
+            # Get the predicted labels by applying a threshold
+            logits = outputs.logits
+            predicted_labels_bool = torch.sigmoid(logits) > 0.5
+
+            # Convert the boolean predictions to string labels
+            predicted_labels_str = [
+                [labels_mapping[i] for i, val in enumerate(labels) if val] 
+                for labels in predicted_labels_bool.tolist()
+            ]
+
+            # Flatten the list of lists for cleaner output
+            predicted_flat = [item for sublist in predicted_labels_str for item in sublist]
+
+            predictions.append({
+                "sentence": sentence,
+                "aspects": predicted_flat if predicted_flat else []
+            })
+
+        logger.info(f"Analyzed {len(predictions)} sentences with aspect model successfully!")
+
+        return jsonify({
+            "original_text": text,
+            "predictions": predictions,
+            "statistics": {
+                "sentences_analyzed": len(predictions),
+                "total_aspects_found": sum(len(p['aspects']) for p in predictions)
+            },
+            "success": True
+        })
+
+    except Exception as e:
+        logger.error(f"Error during aspect analysis: {str(e)}")
+        return jsonify({
+            "error": "Aspect analysis failed",
+            "message": str(e)
+        }), 500
+
 @app.route('/model-info', methods=['GET'])
 def model_info():
     """Get information about the loaded models"""
@@ -414,6 +530,13 @@ def model_info():
             "model_type": "Morphological Analysis",
             "description": "Morphological analyzer for Nepali words to find roots and suffixes",
             "model_loaded": stemmer is not None
+        },
+        "aspect_model": {
+            "model_name": "Karinkato/Aspect_based_sentiment_analysis",
+            "model_type": "Aspect-Based Sentiment Analysis",
+            "description": "BERT-based model for aspect categorization and sentiment analysis in Nepali text",
+            "aspects": ["FEEDBACK", "GENERAL", "PROFANITY", "VIOLENCE"],
+            "model_loaded": aspect_model is not None
         }
     })
 
