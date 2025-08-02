@@ -5,9 +5,13 @@ import torch
 import logging
 import sys
 import os
+import re
 
 # Add the lemmatizer path to sys.path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'model', 'NepaliLemmatizer'))
+
+# Add the stemmer path to sys.path
+sys.path.append(os.path.join(os.path.dirname(__file__), 'model', 'stemmer'))
 
 try:
     from main import lemmatize_word
@@ -15,6 +19,13 @@ try:
 except ImportError as e:
     logging.warning(f"Could not import lemmatizer: {e}")
     lemmatizer_available = False
+
+try:
+    from morph import Morph
+    stemmer_available = True
+except ImportError as e:
+    logging.warning(f"Could not import stemmer: {e}")
+    stemmer_available = False
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -27,10 +38,11 @@ logger = logging.getLogger(__name__)
 tokenizer = None
 model = None
 ner_pipeline = None
+stemmer = None
 
 def load_model():
     """Load the model and tokenizer"""
-    global tokenizer, model, ner_pipeline
+    global tokenizer, model, ner_pipeline, stemmer
     try:
         logger.info("Loading NepaliGPT model and tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained("Shushant/thesis_nepaliGPT")
@@ -46,6 +58,19 @@ def load_model():
         ner_pipeline = pipeline("ner", model="bishaldpande/Ner-xlm-roberta-base")
         logger.info("NER model loaded successfully!")
         
+        # Load stemmer
+        if stemmer_available:
+            logger.info("Loading Stemmer model...")
+            try:
+                root_file = os.path.join(os.path.dirname(__file__), 'model', 'stemmer', 'files', 'root')
+                suffix_file = os.path.join(os.path.dirname(__file__), 'model', 'stemmer', 'files', 'suffix.txt')
+                suffix_rule_file = os.path.join(os.path.dirname(__file__), 'model', 'stemmer', 'files', 'suffix_rule.txt')
+                
+                stemmer = Morph(root_file, suffix_file, suffix_rule_file)
+                logger.info("Stemmer model loaded successfully!")
+            except Exception as e:
+                logger.error(f"Error loading stemmer: {str(e)}")
+        
         return True
     except Exception as e:
         logger.error(f"Error loading model: {str(e)}")
@@ -59,6 +84,7 @@ def health_check():
         "model_loaded": model is not None,
         "ner_loaded": ner_pipeline is not None,
         "lemmatizer_loaded": lemmatizer_available,
+        "stemmer_loaded": stemmer is not None,
         "message": "NLP Models API is running"
     })
 
@@ -245,6 +271,115 @@ def lemmatize():
             "message": str(e)
         }), 500
 
+@app.route('/stemmer', methods=['POST'])
+def analyze_stemmer():
+    """Analyze Nepali words using morphological analyzer (stemmer)"""
+    try:
+        # Check if stemmer is loaded
+        if stemmer is None:
+            return jsonify({
+                "error": "Stemmer not loaded",
+                "message": "Stemmer model is not available"
+            }), 503
+
+        # Get data from request
+        data = request.json
+        if not data:
+            return jsonify({"error": "No JSON data provided"}), 400
+            
+        text = data.get("text", "")
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
+
+        logger.info(f"Analyzing text with stemmer: {text[:50]}...")
+
+        # Extract Nepali words from input (remove punctuation and split)
+        words = re.findall(r'[\u0900-\u097F]+', text)
+        
+        if not words:
+            return jsonify({
+                "error": "No Nepali words found",
+                "message": "The input text does not contain any Nepali words"
+            }), 400
+
+        analyzed_words = []
+        root_count = 0
+        
+        for word in words:
+            word = word.strip()
+            if not word:
+                continue
+                
+            word_analysis = {
+                'word': word,
+                'is_root': False,
+                'analyses': []
+            }
+            
+            # Check if the word is directly in the root list
+            if word in stemmer.roots:
+                word_analysis['is_root'] = True
+                pos = stemmer.pos.get(word, "Unknown")
+                word_analysis['analyses'].append({
+                    'type': 'Root Word',
+                    'root': word,
+                    'suffix': '',
+                    'pos': pos,
+                    'rule': ''
+                })
+                root_count += 1
+            
+            # Try to find possible roots by removing suffixes
+            for suffix in stemmer.suffixes:
+                if word.endswith(suffix) and len(word) > len(suffix):
+                    potential_root = word[:-len(suffix)]
+                    if potential_root in stemmer.roots:
+                        pos = stemmer.pos.get(potential_root, "Unknown")
+                        rule = stemmer.suffix_rules.get(suffix, "Unknown")
+                        word_analysis['analyses'].append({
+                            'type': 'Root + Suffix',
+                            'root': potential_root,
+                            'suffix': suffix,
+                            'pos': pos,
+                            'rule': rule
+                        })
+            
+            # If no analysis found, mark as unknown
+            if not word_analysis['analyses']:
+                word_analysis['analyses'].append({
+                    'type': 'Unknown',
+                    'root': '-',
+                    'suffix': '-',
+                    'pos': 'Not found',
+                    'rule': '-'
+                })
+            
+            analyzed_words.append(word_analysis)
+
+        # Create summary statistics
+        analyzed_count = sum(1 for w in analyzed_words if any(a['type'] != 'Unknown' for a in w['analyses']))
+        
+        logger.info(f"Analyzed {len(words)} words with stemmer successfully!")
+
+        return jsonify({
+            "original_text": text,
+            "words": analyzed_words,
+            "statistics": {
+                "total_words": len(words),
+                "root_words": root_count,
+                "analyzed_words": analyzed_count,
+                "unknown_words": len(words) - analyzed_count
+            },
+            "success": True
+        })
+
+    except Exception as e:
+        logger.error(f"Error during stemmer analysis: {str(e)}")
+        return jsonify({
+            "error": "Stemmer analysis failed",
+            "message": str(e)
+        }), 500
+
 @app.route('/model-info', methods=['GET'])
 def model_info():
     """Get information about the loaded models"""
@@ -273,6 +408,12 @@ def model_info():
             "model_type": "Lemmatization",
             "description": "Rule-based lemmatizer for Nepali words",
             "model_loaded": lemmatizer_available
+        },
+        "stemmer": {
+            "model_name": "NepaliStemmer",
+            "model_type": "Morphological Analysis",
+            "description": "Morphological analyzer for Nepali words to find roots and suffixes",
+            "model_loaded": stemmer is not None
         }
     })
 
