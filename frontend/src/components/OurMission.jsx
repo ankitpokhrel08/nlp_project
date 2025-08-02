@@ -14,42 +14,66 @@ const OurMission = () => {
   return (
     <>
       <Header />
-      <Section className="min-h-screen py-4">
-        <div className="container relative z-2 py-8">
+      <Section className="min-h-screen pt-32 pb-20 bg-gradient-to-b from-white to-gray-50">
+        <div className="container mx-auto px-4">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6 md:mb-8">
-            <button
-              onClick={goBack}
-              className="flex items-center gap-2 px-3 md:px-4 py-2 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg transition-all duration-200 font-code text-xs md:text-sm font-semibold border border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
-            >
-              <svg
-                className="w-3 md:w-4 h-3 md:h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              Back
-            </button>
-            <Heading className="text-center" title="Our Mission" />
-            <div className="w-16 md:w-32" /> {/* Spacer for centering */}
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              Our <span className="text-brand-primary">Mission</span>
+            </h1>
           </div>
 
           {/* Mission Content */}
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Project Background */}
+            <div className="mb-16">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                Academic Project Background
+              </h2>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 mb-8">
+                <p className="text-lg text-gray-600 leading-relaxed mb-4">
+                  This project was built as part of the completion of{" "}
+                  <span className="font-semibold text-brand-primary">
+                    Software Engineering Project
+                  </span>
+                  .
+                </p>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  All the projects you find here are created by{" "}
+                  <span className="font-semibold">
+                    Bachelors and Masters students of Pulchowk Campus
+                  </span>{" "}
+                  under the supervision of{" "}
+                  <span className="font-semibold text-brand-primary">
+                    <a
+                      href="https://scholar.google.com/citations?user=tmzff0YAAAAJ&hl=en"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-brand-primary hover:text-brand-secondary underline font-semibold transition-colors duration-200"
+                    >
+                      Mr. Aman Sakya Sir
+                    </a>
+                  </span>
+                  . You can explore more projects by visiting his blog at:{" "}
+                  <a
+                    href="http://amanshakya.com.np/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand-primary hover:text-brand-secondary underline font-semibold transition-colors duration-200"
+                  >
+                    amanshakya.com.np
+                  </a>
+                </p>
+              </div>
+            </div>
+
             {/* Why We Built This Project */}
-            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
-              <div className="text-center mb-6 md:mb-8">
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
-                  Why We Built This Project
-                </h2>
-                <p className="body-2 md:body-1 text-n-3 leading-relaxed">
+            <div className="mb-16">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                Why We Built This Project
+              </h2>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+                <p className="text-lg text-gray-600 leading-relaxed">
                   Natural Language Processing (NLP) has the power to break down
                   language barriers and democratize access to AI technology. We
                   believe that every language, including Nepali and other
@@ -60,12 +84,12 @@ const OurMission = () => {
             </div>
 
             {/* The Idea Behind Our Project */}
-            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
-              <div className="text-center mb-6 md:mb-8">
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
-                  The Idea Behind Our Project
-                </h2>
-                <p className="body-2 md:body-1 text-n-3 leading-relaxed">
+            <div className="mb-16">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                The Idea Behind Our Project
+              </h2>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+                <p className="text-lg text-gray-600 leading-relaxed">
                   Our vision is to create a centralized hub where researchers,
                   developers, and enthusiasts can discover, experiment with, and
                   contribute to NLP models. We wanted to bridge the gap between
@@ -76,67 +100,70 @@ const OurMission = () => {
             </div>
 
             {/* How We Did It */}
-            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-6 md:mb-8 shadow-lg">
-              <div className="text-center mb-6 md:mb-8">
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
-                  How We Did It
-                </h2>
-                <div className="text-left space-y-3 md:space-y-4">
-                  <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-n-6 text-n-1 text-sm font-semibold">
-                      1
+            <div className="mb-16">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                How We Did It
+              </h2>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl font-bold text-brand-primary">
+                        1
+                      </span>
                     </div>
-                    <div>
-                      <h4 className="h5 text-n-1 mb-2">Research & Planning</h4>
-                      <p className="text-n-3 text-sm">
-                        We researched existing NLP models, identified gaps in
-                        language support, and planned a user-friendly interface
-                        that could showcase multiple models effectively.
-                      </p>
-                    </div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Research & Planning
+                    </h4>
+                    <p className="text-gray-600">
+                      We researched existing NLP models, identified gaps in
+                      language support, and planned a user-friendly interface
+                      that could showcase multiple models effectively.
+                    </p>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-n-6 text-n-1 text-sm font-semibold">
-                      2
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-brand-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl font-bold text-brand-secondary">
+                        2
+                      </span>
                     </div>
-                    <div>
-                      <h4 className="h5 text-n-1 mb-2">Technology Stack</h4>
-                      <p className="text-n-3 text-sm">
-                        Built with React.js for a responsive frontend,
-                        integrated with Hugging Face APIs for model access, and
-                        designed with modern UI/UX principles using Tailwind
-                        CSS.
-                      </p>
-                    </div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Technology Stack
+                    </h4>
+                    <p className="text-gray-600">
+                      Built with React.js for a responsive frontend, integrated
+                      with Hugging Face APIs for model access, and designed with
+                      modern UI/UX principles using Tailwind CSS.
+                    </p>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 mt-1 flex items-center justify-center rounded-full bg-n-6 text-n-1 text-sm font-semibold">
-                      3
+                  <div className="text-center p-6">
+                    <div className="w-16 h-16 bg-orange-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <span className="text-2xl font-bold text-orange-500">
+                        3
+                      </span>
                     </div>
-                    <div>
-                      <h4 className="h5 text-n-1 mb-2">
-                        Integration & Testing
-                      </h4>
-                      <p className="text-n-3 text-sm">
-                        Integrated multiple NLP models, created interactive chat
-                        interfaces, and extensively tested to ensure smooth user
-                        experience across different devices.
-                      </p>
-                    </div>
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">
+                      Integration & Testing
+                    </h4>
+                    <p className="text-gray-600">
+                      Integrated multiple NLP models, created interactive chat
+                      interfaces, and extensively tested to ensure smooth user
+                      experience across different devices.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Our Vision */}
-            <div className="bg-n-8 border border-n-6/50 rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-lg">
-              <div className="text-center">
-                <h2 className="h4 md:h3 mb-3 md:mb-4 text-n-1">
-                  Our Vision for the Future
-                </h2>
-                <p className="body-2 md:body-1 text-n-3 leading-relaxed mb-4 md:mb-6">
+            <div className="mb-16">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                Our Vision for the Future
+              </h2>
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
+                <p className="text-lg text-gray-600 leading-relaxed mb-8">
                   We envision this platform growing into a comprehensive
                   ecosystem where developers can contribute their own models,
                   researchers can collaborate on new techniques, and users can
@@ -144,10 +171,10 @@ const OurMission = () => {
                   languages.
                 </p>
 
-                <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4">
+                <div className="flex flex-col md:flex-row justify-center gap-4">
                   <Button
                     onClick={goBack}
-                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg border border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
+                    className="w-full md:w-auto px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white rounded-lg border border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     Explore Projects
                   </Button>
@@ -158,7 +185,7 @@ const OurMission = () => {
                         "_blank"
                       )
                     }
-                    className="w-full md:w-auto px-6 md:px-8 py-3 bg-white hover:bg-gray-50 text-brand-primary hover:text-brand-secondary rounded-lg transition-all duration-200 font-code text-sm font-semibold border-2 border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
+                    className="w-full md:w-auto px-8 py-3 bg-white hover:bg-gray-50 text-brand-primary hover:text-brand-secondary rounded-lg transition-all duration-200 font-semibold border-2 border-brand-primary hover:border-brand-secondary shadow-md hover:shadow-lg"
                   >
                     View Source Code
                   </button>

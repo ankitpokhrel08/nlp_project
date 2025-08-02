@@ -27,6 +27,8 @@ const Benefits = () => {
       // Route to different chat interfaces based on model type
       if (modelToUse.includes("Named Entity Recognition")) {
         navigate(`/ner/${urlFriendlyName}`);
+      } else if (modelToUse.includes("Morphological Analyzer")) {
+        navigate(`/chat/${urlFriendlyName}`);
       } else {
         // Default to regular chat for other models (NepaliGPT and NepaliLemmatizer)
         navigate(`/chat/${urlFriendlyName}`);
