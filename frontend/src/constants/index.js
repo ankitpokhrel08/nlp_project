@@ -229,16 +229,6 @@ export const benefits = [
   },
   {
     id: "1",
-    title: "STEPS Parser",
-    description: "Multilingual dependency parsing with transformer models",
-    text: "A sophisticated research tool that analyzes sentence structures across multiple languages using advanced transformer models like mBERT and XLM-R. STEPS identifies grammatical relationships between words, making it invaluable for computational linguistics research. The system supports multiple languages, provides evaluation scripts, and enables reproducible research using Universal Dependencies data.",
-    backgroundUrl: "./src/assets/benefits/card-2.svg",
-    iconUrl: benefitIcon2,
-    imageUrl: benefitImage2,
-    light: true,
-  },
-  {
-    id: "2",
     title: "Nepali Named Entity Recognition",
     description:
       "Intelligent identification of people, places, and organizations in Nepali text",
@@ -248,7 +238,7 @@ export const benefits = [
     imageUrl: benefitImage2,
   },
   {
-    id: "3",
+    id: "2",
     title: "NepaliLemmatizer",
     description:
       "Efficient root word extraction for Nepali language processing",
@@ -259,7 +249,7 @@ export const benefits = [
     light: true,
   },
   {
-    id: "4",
+    id: "3",
     title: "Nepali Morphological Analyzer",
     description:
       "Advanced morphological analysis and stemming for Nepali words",
@@ -270,20 +260,12 @@ export const benefits = [
     light: true,
   },
   {
-    id: "5",
-    title: "Spoken Language Identifier",
-    description: "Real-time audio language detection using deep learning",
-    text: "An innovative CNN-based system that identifies spoken languages from audio clips using Mel Spectrogram analysis. Currently supports five South Asian languages: Nepali, Hindi, Sanskrit, Newari, and Maithili. The system processes audio files as short as 10 seconds and includes a web API for real-time predictions. Fully containerized with Docker for easy deployment and scalability.",
+    id: "4",
+    title: "Nepali Aspect-Based Sentiment Analysis",
+    description:
+      "Intelligent aspect categorization and sentiment analysis for Nepali text",
+    text: "A BERT-based model that performs fine-grained sentiment analysis by identifying aspect categories (GENERAL, FEEDBACK, PROFANITY, VIOLENCE) in Nepali text. Built on NepalBERT architecture, this tool analyzes opinion terms and their associated polarities, making it perfect for social media monitoring, content moderation, and public opinion analysis in Nepali language.",
     backgroundUrl: "./src/assets/benefits/card-6.svg",
-    iconUrl: benefitIcon1,
-    imageUrl: benefitImage2,
-  },
-  {
-    id: "6",
-    title: "COVID-19 Nepali Tweet Classifier",
-    description: "AI-powered social media analysis for public health insights",
-    text: "A specialized multilingual AI system that analyzes Nepali-language tweets about COVID-19, filling a critical gap in social media monitoring for low-resource languages. The system automatically categorizes tweets into eight key topics including symptoms, vaccination, and misinformation. Features a live dashboard powered by advanced mBERT and MuRIL models, with all datasets and code available as open-source resources.",
-    backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
   },

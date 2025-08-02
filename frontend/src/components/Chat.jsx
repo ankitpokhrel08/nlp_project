@@ -30,6 +30,7 @@ const Chat = () => {
       return "ner";
     if (modelName?.includes("stemmer") || modelName?.includes("morphological"))
       return "stemmer";
+    if (modelName?.includes("aspect-based-sentiment-analysis")) return "aspect";
     return "chat"; // default for NepaliGPT
   };
 
@@ -63,6 +64,15 @@ const Chat = () => {
         "उनीहरू गाउँ जाँदैछन्।",
         "पुस्तकहरूको मूल्य बढेको छ।",
         "घरमा लेखिएको कुरा बुझिएन।",
+      ];
+    } else if (modelType === "aspect") {
+      return [
+        "यो सरकारले राम्रो काम गरेको छ।",
+        "नेताहरु भ्रष्ट छन्।",
+        "यो विधेयक खारेज हुनुपर्छ।",
+        "त्यो मान्छेलाई तुरुन्तै कारबाही गरियोस्।",
+        "राष्ट्रपतिको भाषण प्रभावशाली थियो।",
+        "यो नीति निकै राम्रो छ।",
       ];
     } else {
       return [
@@ -114,6 +124,8 @@ const Chat = () => {
       welcomeText = `नमस्ते! I'm ${displayName}. I can identify named entities (people, places, organizations) in Nepali text. Enter any Nepali text and I'll highlight the entities I find!`;
     } else if (modelType === "stemmer") {
       welcomeText = `नमस्ते! I'm ${displayName}. I analyze Nepali words to find their root forms, suffixes, and grammatical patterns. Send me Nepali text and I'll show you detailed morphological analysis including part-of-speech tags!`;
+    } else if (modelType === "aspect") {
+      welcomeText = `नमस्ते! I'm ${displayName}. I perform aspect-based sentiment analysis on Nepali text, identifying aspect categories like GENERAL, FEEDBACK, PROFANITY, and VIOLENCE. Send me Nepali text and I'll analyze the aspects and sentiments!`;
     } else {
       welcomeText = `नमस्ते! I'm ${displayName}, a Nepali language model. I can help you generate text in Nepali. Feel free to ask me questions in Nepali or English. You can also use the sample prompts below to get started!`;
     }
@@ -343,6 +355,51 @@ const Chat = () => {
         } else {
           throw new Error(data.message || "Stemmer analysis failed");
         }
+      } else if (modelType === "aspect") {
+        // Call Aspect-Based Sentiment Analysis API
+        response = await fetch("http://localhost:5001/aspect", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: userMessage.text,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+
+        if (data.success) {
+          let responseText = ``;
+
+          data.predictions.forEach((prediction, index) => {
+            responseText += `"${prediction.sentence}"\n`;
+            if (prediction.aspects && prediction.aspects.length > 0) {
+              responseText += `Detected Aspects: ${prediction.aspects.join(
+                ", "
+              )}\n`;
+            } else {
+              responseText += `Detected Aspects: None\n`;
+            }
+            if (index < data.predictions.length - 1) {
+              responseText += `\n`;
+            }
+          });
+
+          const botResponse = {
+            id: Date.now() + 1,
+            text: responseText,
+            sender: "bot",
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botResponse]);
+        } else {
+          throw new Error(data.message || "Aspect analysis failed");
+        }
       } else {
         // Default: Call NepaliGPT API
         // Enhanced prompt with transliteration
@@ -532,6 +589,8 @@ const Chat = () => {
                         ? "Sample Nepali Text with Entities:"
                         : modelType === "stemmer"
                         ? "Sample Nepali Text for Morphological Analysis:"
+                        : modelType === "aspect"
+                        ? "Sample Nepali Text for Aspect Analysis:"
                         : "Sample Nepali Prompts:"}
                     </span>
                     <button
@@ -571,6 +630,8 @@ const Chat = () => {
                           ? "Enter Nepali text to find entities..."
                           : modelType === "stemmer"
                           ? "Enter Nepali text to analyze morphology..."
+                          : modelType === "aspect"
+                          ? "Enter Nepali text to analyze aspects..."
                           : `Ask ${displayName} anything in Nepali or English...`
                       }
                       className="w-full bg-n-7 border border-n-5 rounded-xl px-3 py-2 text-n-1 placeholder-n-4 resize-none focus:outline-none focus:border-n-4 transition-colors text-sm"
@@ -628,6 +689,8 @@ const Chat = () => {
                   ? `${displayName} is a BERT-based model for Named Entity Recognition in Nepali text. It can identify and classify entities like people, places, organizations, and other important terms in Nepali text with high accuracy.`
                   : modelType === "stemmer"
                   ? `${displayName} is a comprehensive morphological analyzer for Nepali words. It identifies root words, suffixes, and grammatical patterns using 100+ transformation rules. Built on extensive linguistic data from Brihat Nepali Shabdakosh with over 20,000 root words and part-of-speech information.`
+                  : modelType === "aspect"
+                  ? `${displayName} is a BERT-based model for aspect-based sentiment analysis of Nepali text. It identifies aspect categories (GENERAL, FEEDBACK, PROFANITY, VIOLENCE) and analyzes sentiments associated with these aspects. Built on NepalBERT architecture for fine-grained sentiment analysis and content moderation.`
                   : `${displayName} is a Nepali language generation model fine-tuned on Nepali text data. It can understand and generate text in the Nepali language, helping with conversations, text completion, and creative writing in Nepali. The model is based on transformer architecture and is specifically trained for Nepali language understanding.`}
               </p>
 
@@ -672,6 +735,21 @@ const Chat = () => {
                         • Shows part-of-speech tags and transformation rules
                       </li>
                       <li>• Works with inflected and compound Nepali words</li>
+                    </>
+                  ) : modelType === "aspect" ? (
+                    <>
+                      <li>
+                        • Type Nepali text for aspect-based sentiment analysis
+                      </li>
+                      <li>• Use sample sentences above for quick testing</li>
+                      <li>
+                        • Identifies aspects: GENERAL, FEEDBACK, PROFANITY,
+                        VIOLENCE
+                      </li>
+                      <li>
+                        • Perfect for content moderation and opinion analysis
+                      </li>
+                      <li>• Works with political and social text content</li>
                     </>
                   ) : (
                     <>
