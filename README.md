@@ -1,104 +1,50 @@
-# 🧠 NLP Projects Showcase - NepaliGPT Chat Interface
+# 🧠 Nepali NLP Hub - Interactive Language Processing Platform
 
-A full-stack web application that showcases Natural Language Processing projects with an interactive chat interface for the NepaliGPT model. Built with React, Tailwind CSS, and Flask.
+A comprehensive web platform showcasing cutting-edge Natural Language Processing models specifically designed for the Nepali language. This project serves as both a demonstration platform and a practical tool for researchers, developers, and enthusiasts working with Nepali text processing.
 
-## 🌟 Features
+## 🎯 Why This Project?
 
-### Frontend (React + Tailwind CSS)
+The Nepali language, spoken by over 30 million people worldwide, has been underrepresented in the field of Natural Language Processing. This platform aims to:
 
-- **Modern UI/UX**: Beautiful gradient design with responsive layout
-- **Interactive Chat Interface**: Real-time chat with NepaliGPT model
-- **Project Showcase**: Display of various NLP projects and models
-- **Smart Navigation**: Single-page navigation with smooth scrolling
-- **Nepali Language Support**: Enhanced features for Nepali text input
+- **Bridge the Language Gap**: Provide accessible NLP tools for Nepali speakers
+- **Showcase Research**: Demonstrate state-of-the-art Nepali language models
+- **Enable Innovation**: Offer a platform for researchers to share their work
+- **Educational Purpose**: Help students and developers learn about NLP in Nepali context
+- **Community Building**: Foster collaboration in Nepali NLP research
 
-### Backend (Flask API)
+Built with modern web technologies, this platform provides an intuitive interface for interacting with various Nepali NLP models through real-time chat interfaces.
 
-- **NepaliGPT Integration**: Direct integration with Hugging Face's NepaliGPT model
-- **RESTful API**: Clean endpoints for health checks, text generation, and model info
-- **CORS Enabled**: Cross-origin requests support for frontend integration
-- **Error Handling**: Comprehensive error handling and logging
+## 🚀 Getting Started
 
-### Enhanced Nepali Support
-
-- **Sample Prompts**: Pre-written Nepali phrases for quick testing
-- **Auto-transliteration**: Automatic conversion of common English words to Nepali script
-- **Virtual Keyboard Support**: Integration with Google Input Tools
-- **Bilingual Interface**: Support for both English and Nepali inputs
-
-## 🚀 Live Demo
-
-- **Frontend**: http://localhost:5174
-- **Backend API**: http://localhost:5001
-- **Chat Interface (NepaliGPT)**: http://localhost:5174/chat/nepali-gpt
-- **NER Interface (Entity Recognition)**: http://localhost:5174/ner/named-entity-recognition-for-nepali-using-bert-based-models
-
-## 🛠 Tech Stack
-
-### Frontend
-
-- **React 18** - Modern React with hooks
-- **Vite** - Fast build tool and development server
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Client-side routing
-
-### Backend
-
-- **Flask** - Lightweight Python web framework
-- **Transformers** - Hugging Face transformers library
-- **PyTorch** - Deep learning framework
-- **Flask-CORS** - Cross-origin resource sharing
-
-### AI Model
-
-- **NepaliGPT** (`Shushant/thesis_nepaliGPT`) - Fine-tuned GPT model for Nepali language
-
-## 📋 Prerequisites
+### Prerequisites
 
 - **Node.js** (v16 or higher)
 - **Python** (v3.8 or higher)
-- **npm** or **yarn**
 - **Git**
 
-## 🔧 Installation & Setup
-
-### 1. Clone the Repository
-
-```bash
-git clone <your-repository-url>
-cd nlp_projects
-```
-
-### 2. Backend Setup (Flask API)
+### Backend Setup (Flask API)
 
 ```bash
 # Navigate to backend directory
 cd backend
 
-# Create virtual environment
+# Create and activate virtual environment
 python3 -m venv venv
-
-# Activate virtual environment
-# On macOS/Linux:
-source venv/bin/activate
-# On Windows:
-# venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Start the backend server
-./start.sh
-# Or manually:
-# python app.py
+python app.py
 ```
 
 The backend will start on **http://localhost:5001**
 
-### 3. Frontend Setup (React App)
+### Frontend Setup (React App)
 
 ```bash
-# Navigate to frontend directory (from project root)
+# Navigate to frontend directory
 cd frontend
 
 # Install dependencies
@@ -110,161 +56,84 @@ npm run dev
 
 The frontend will start on **http://localhost:5174**
 
-## 🎯 Usage Guide
+## 🤖 Available Models
 
-### Basic Chat Interaction
+### 1. **NepaliGPT** - Conversational AI
 
-1. **Open the application** at http://localhost:5174
-2. **Navigate to Projects** section or click "Chat" on any project card
-3. **Start chatting** with the NepaliGPT model
+- **Model**: `Shushant/thesis_nepaliGPT`
+- **Description**: A fine-tuned GPT model specifically trained for Nepali language generation
+- **Capabilities**: Text completion, conversation, creative writing in Nepali
+- **Use Cases**: Chatbots, content generation, language learning assistance
 
-### Enhanced Nepali Input Methods
+### 2. **Named Entity Recognition (NER)** - Information Extraction
 
-#### Method 1: Sample Prompts
+- **Model**: BERT-based NER model for Nepali
+- **Description**: Identifies and classifies named entities in Nepali text
+- **Capabilities**: Recognizes people, places, organizations, and other entities
+- **Use Cases**: Information extraction, content analysis, data mining
 
-- Click **"Show Examples"** in the chat interface
-- Select from pre-written Nepali prompts like:
-  - `नमस्ते, तपाईं कस्तो हुनुहुन्छ?`
-  - `काठमाडौं बारे बताउनुहोस्`
-  - `नेपालको संस्कृति के छ?`
+### 3. **Nepali Lemmatizer** - Text Normalization
 
-#### Method 2: Auto-transliteration
+- **Model**: Rule-based lemmatization system
+- **Description**: Converts Nepali words to their root forms (lemmas)
+- **Capabilities**: Morphological analysis, text normalization
+- **Use Cases**: Search engines, text preprocessing, linguistic analysis
 
-Type common English words and they'll auto-convert:
+### 4. **Morphological Analyzer** - Linguistic Analysis
 
-- `namaste` → `नमस्ते`
-- `kathmandu` → `काठमाडौं`
-- `nepal` → `नेपाल`
-- `himalaya` → `हिमालय`
-
-#### Method 3: Virtual Keyboard
-
-- Click the **Google Input Tools** link in the chat interface
-- Use online Nepali keyboard for proper Devanagari input
-
-#### Method 4: Direct Nepali Input
-
-- If you have Nepali keyboard configured, type directly in Devanagari script
+- **Model**: Comprehensive stemmer with 100+ transformation rules
+- **Description**: Analyzes Nepali word structure, roots, suffixes, and grammatical patterns
+- **Capabilities**: Root extraction, suffix identification, part-of-speech tagging
+- **Database**: Built on Brihat Nepali Shabdakosh with 20,000+ root words
+- **Use Cases**: Linguistic research, grammar checking, educational tools
 
 ## 🌐 API Endpoints
 
-### Backend API (http://localhost:5001)
-
-| Endpoint      | Method | Description                         |
-| ------------- | ------ | ----------------------------------- |
-| `/health`     | GET    | Health check and model status       |
-| `/generate`   | POST   | Generate text using NepaliGPT       |
-| `/ner`        | POST   | Named Entity Recognition using BERT |
-| `/model-info` | GET    | Get model information and specs     |
-
-### Example API Usage
-
-```bash
-# Health check
-curl http://localhost:5001/health
-
-# Generate text
-curl -X POST http://localhost:5001/generate \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "नमस्ते", "max_length": 100, "temperature": 0.7}'
-
-# Named Entity Recognition
-curl -X POST http://localhost:5001/ner \
-  -H "Content-Type: application/json" \
-  -d '{"text": "काठमाडौं, पोखरा, लुम्बिनी नेपालका प्रसिद्ध ठाउँहरू हुन्।"}'
-```
-
-## 📁 Project Structure
-
-```
-nlp_projects/
-├── frontend/                 # React frontend
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   │   ├── Chat.jsx      # Main chat interface
-│   │   │   ├── Header.jsx    # Navigation header
-│   │   │   ├── Hero.jsx      # Landing page hero
-│   │   │   └── ...
-│   │   ├── constants/        # App constants and data
-│   │   └── assets/          # Images and icons
-│   ├── package.json
-│   └── vite.config.js
-├── backend/                  # Flask backend
-│   ├── app.py               # Main Flask application
-│   ├── requirements.txt     # Python dependencies
-│   ├── start.sh            # Startup script
-│   ├── test_api.py         # API testing script
-│   └── README.md           # Backend-specific docs
-└── README.md               # This file
-```
-
-## 🧪 Testing the Application
-
-### Test Backend API
-
-```bash
-cd backend
-python test_api.py
-```
-
-### Test Frontend
-
-1. Open http://localhost:5174
-2. Navigate to chat interface
-3. Try different input methods (samples, transliteration, direct Nepali)
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Port 5000 already in use (macOS)**
-
-- The backend uses port 5001 to avoid conflicts with AirPlay Receiver
-- Alternatively, disable AirPlay Receiver in System Preferences
-
-**Model loading takes time**
-
-- First run downloads the NepaliGPT model (~500MB)
-- Subsequent runs load from cache much faster
-
-**CORS errors**
-
-- Ensure backend is running on port 5001
-- Frontend should be on port 5174
-- Flask-CORS is configured for cross-origin requests
-
-**Nepali text not displaying properly**
-
-- Ensure your browser supports Devanagari fonts
-- Try using Google Chrome or Firefox for best compatibility
+| Endpoint      | Method | Description                   |
+| ------------- | ------ | ----------------------------- |
+| `/health`     | GET    | Health check and model status |
+| `/generate`   | POST   | NepaliGPT text generation     |
+| `/ner`        | POST   | Named Entity Recognition      |
+| `/lemmatize`  | POST   | Lemmatization of Nepali text  |
+| `/stemmer`    | POST   | Morphological analysis        |
+| `/model-info` | GET    | Model information and specs   |
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+We welcome contributions from the Nepali NLP community! If you have developed a Nepali NLP model and would like to feature it on this platform:
 
-## 📄 License
+### How to Contribute Your Model
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. **Fork this repository** to your GitHub account
+2. **Create a new branch** for your model: `git checkout -b feature/your-model-name`
+3. **Add your model integration**:
+   - Backend: Add API endpoint in `backend/app.py`
+   - Frontend: Add model card in `frontend/src/constants/index.js`
+   - Update chat interface if needed
+4. **Test your integration** thoroughly
+5. **Update documentation** with model details
+6. **Create a Pull Request** with:
+   - Clear description of your model
+   - Performance metrics and examples
+   - Instructions for testing
+   - Any additional dependencies
 
-## 🙏 Acknowledgments
+### What We Look For
 
-- **Hugging Face** for the transformers library and model hosting
-- **Shushant** for the NepaliGPT model (`Shushant/thesis_nepaliGPT`)
-- **React Team** for the amazing frontend framework
-- **Tailwind CSS** for the utility-first CSS framework
-- **Flask Team** for the lightweight web framework
+- **Nepali Language Focus**: Models specifically designed for Nepali text
+- **Quality Implementation**: Well-tested and documented code
+- **Open Source**: Models should be accessible and properly licensed
+- **Educational Value**: Clear examples and use cases
+- **Performance**: Reasonable inference time and accuracy
 
-## 📞 Support
+### Review Process
 
-For questions or support, please:
+1. **Initial Review**: We'll check code quality and model integration
+2. **Testing**: Verify functionality and performance
+3. **Community Feedback**: Gather input from other contributors
+4. **Approval**: Merge into main branch and deploy
 
-1. Check the troubleshooting section above
-2. Open an issue on GitHub
-3. Review the API documentation
+Join us in building the most comprehensive Nepali NLP platform! 🇳🇵
 
 ---
 
