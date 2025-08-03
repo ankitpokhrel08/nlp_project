@@ -9,15 +9,16 @@ import Pricing from "./components/Pricing";
 import Chat from "./components/Chat";
 import NERChat from "./components/NERChat";
 import NotFound from "./components/NotFound";
-import OurMission from "./components/OurMission";
+import Documentation from "./components/Documentation";
+import DocumentationGuide from "./components/DocumentationGuide";
 
 // Home component with all the main sections
 const Home = () => (
   <>
     <Header />
     <Hero />
-    <About />
     <Benefits />
+    <About />
     <Footer />
   </>
 );
@@ -30,7 +31,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/chat/:modelName" element={<Chat />} />
           <Route path="/ner/:modelName" element={<NERChat />} />
-          <Route path="/ourmission" element={<OurMission />} />
+          <Route path="/documentation" element={<Documentation />} />
+          <Route path="/documentation/guide" element={<DocumentationGuide />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

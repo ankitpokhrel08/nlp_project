@@ -154,9 +154,9 @@ const Header = () => {
 
         <Button
           className="hidden lg:flex"
-          onClick={() => navigate("/ourmission")}
+          onClick={() => navigate("/documentation")}
         >
-          Our Mission
+          Documentation
         </Button>
 
         <Button

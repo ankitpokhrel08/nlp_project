@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Section from "./Section";
 import Button from "./Button";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const Chat = () => {
   const { modelName } = useParams();
@@ -777,6 +778,7 @@ const Chat = () => {
           </div>
         </div>
       </Section>
+      <Footer />
     </>
   );
 };

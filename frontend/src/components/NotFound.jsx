@@ -3,6 +3,7 @@ import Section from "./Section";
 import Heading from "./Heading";
 import Button from "./Button";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const NotFound = () => {
           </div>
         </div>
       </Section>
+      <Footer />
     </>
   );
 };

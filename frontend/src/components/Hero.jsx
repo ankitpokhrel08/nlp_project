@@ -49,7 +49,7 @@ const Hero = () => {
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 text-gray-900 leading-tight">
-              Explore Next-Gen <br />
+              Explore Next-Gen Nepali <br />
               <span className="text-brand-primary">NLP</span>{" "}
               <span className="text-orange-500">Projects</span>
             </h1>

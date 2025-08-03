@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Section from "./Section";
 import Button from "./Button";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const NERChat = () => {
   const { modelName } = useParams();
@@ -370,6 +371,7 @@ const NERChat = () => {
           </div>
         </div>
       </Section>
+      <Footer />
     </>
   );
 };
