@@ -5,18 +5,31 @@ const About = () => {
     <Section
       className="pt-32 pb-20 bg-gradient-to-b from-white to-gray-50"
       id="about"
+      crosses
     >
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Advancing <span className="text-brand-primary">Nepali NLP</span>{" "}
-              Research
+              About <span className="text-brand-primary">Us</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              Our team of passionate students and researchers is dedicated to
-              developing cutting-edge Natural Language Processing solutions
-              specifically designed for the Nepali language and culture.
+              We are the{" "}
+              <span className="font-semibold text-brand-primary">079BCTA</span>{" "}
+              batch of Pulchowk Campus, and this project was developed as part of our 5th semester{" "}
+              <span className="font-semibold text-brand-secondary">Software Engineering Project</span>
+              . Under the expert guidance of{" "}
+              <a
+                href="https://scholar.google.com/citations?user=tmzff0YAAAAJ&hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand-primary hover:text-brand-secondary underline font-semibold transition-colors duration-200"
+              >
+                Mr. Aman Sakya
+              </a>
+              , our esteemed professor, we built this comprehensive platform.
+              This project showcases the remarkable work done by students under
+              his mentorship as part of their Bachelor's and Master's projects.
             </p>
           </div>
 
@@ -38,11 +51,11 @@ const About = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Innovation
+                Academic Excellence
               </h3>
               <p className="text-gray-600">
-                Pioneering new approaches to Nepali language understanding and
-                generation
+                Combining theoretical knowledge with practical implementation to
+                create innovative NLP solutions
               </p>
             </div>
 
@@ -63,11 +76,11 @@ const About = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Collaboration
+                Student Community
               </h3>
               <p className="text-gray-600">
-                Working together to bridge language barriers and enhance
-                communication
+                Building bridges between undergraduate and graduate research to
+                foster collaborative learning
               </p>
             </div>
 
@@ -88,11 +101,11 @@ const About = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Research
+                Knowledge Showcase
               </h3>
               <p className="text-gray-600">
-                Contributing to the global NLP community with open-source
-                solutions
+                Presenting cutting-edge research in an accessible platform for
+                the broader community
               </p>
             </div>
           </div>
