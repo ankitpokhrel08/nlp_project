@@ -1,8 +1,8 @@
-# 🧠 Nepali NLP Hub - Interactive Language Processing Platform
+## NLP Project for Nepali Language
 
 A comprehensive web platform showcasing cutting-edge Natural Language Processing models specifically designed for the Nepali language. This project serves as both a demonstration platform and a practical tool for researchers, developers, and enthusiasts working with Nepali text processing.
 
-## 🎯 Why This Project?
+## Why This Project?
 
 The Nepali language, spoken by over 30 million people worldwide, has been underrepresented in the field of Natural Language Processing. This platform aims to:
 
@@ -14,7 +14,7 @@ The Nepali language, spoken by over 30 million people worldwide, has been underr
 
 Built with modern web technologies, this platform provides an intuitive interface for interacting with various Nepali NLP models through real-time chat interfaces.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -105,7 +105,7 @@ The frontend will start on **http://localhost:5174**
 | `/stemmer`    | POST   | Morphological analysis          |
 | `/aspect`     | POST   | Aspect-based sentiment analysis |
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from the Nepali NLP community! If you have developed a Nepali NLP model and would like to feature it on this platform:
 
