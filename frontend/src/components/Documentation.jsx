@@ -38,24 +38,26 @@ const Documentation = () => {
                 </Button>
               </div>
 
-              {/* API Reference */}
+              {/* Guidelines */}
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:border-brand-primary/30">
-
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  API Reference
+                  Guidelines
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  Complete API documentation for all available endpoints and
-                  models.
+                  {/* If you are thinking of contributing that you need to follow these guidelines */}
+                  Important guidelines for contributing to our NLP projects.
                 </p>
-                <Button className="w-full bg-brand-secondary hover:bg-brand-primary text-white">
-                  Explore APIs
+                <Button
+                  className="w-full bg-brand-secondary hover:bg-brand-primary text-white"
+                  href="/documentation/guidelines"
+                >
+                  View Guidelines
                 </Button>
               </div>
 
               {/* Models */}
+              {/* Models */}
               <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:border-brand-primary/30">
-
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   Models
                 </h3>
@@ -63,73 +65,11 @@ const Documentation = () => {
                   Detailed information about our NLP models and their
                   capabilities.
                 </p>
-                <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                <Button
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                  href="/documentation/models"
+                >
                   Learn More
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Featured Sections */}
-          <div className="max-w-4xl mx-auto mb-16">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
-              Featured Documentation
-            </h2>
-
-            {/* Lemmatizer Section */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Nepali Lemmatizer
-              </h3>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Our Nepali Lemmatizer reduces words to their root form,
-                essential for text analysis and natural language understanding
-                tasks in Nepali.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button className="bg-brand-primary hover:bg-brand-secondary text-white">
-                  View Documentation
-                </Button>
-                <Button className="bg-gray-500 hover:bg-gray-700 text-white">
-                  Try Demo
-                </Button>
-              </div>
-            </div>
-
-            {/* Stemmer Section */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Nepali Stemmer
-              </h3>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Advanced stemming algorithm for Nepali text that handles complex
-                morphological variations and produces accurate stem forms.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button className="bg-brand-primary hover:bg-brand-secondary text-white">
-                  View Documentation
-                </Button>
-                <Button className="bg-gray-500 hover:bg-gray-700 text-white">
-                  Try Demo
-                </Button>
-              </div>
-            </div>
-
-            {/* NER Section */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 mb-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Named Entity Recognition
-              </h3>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Identify and classify named entities in Nepali text including
-                persons, locations, organizations, and other important entities.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button className="bg-brand-primary hover:bg-brand-secondary text-white">
-                  View Documentation
-                </Button>
-                <Button className="bg-gray-500 hover:bg-gray-700 text-white">
-                  Try Demo
                 </Button>
               </div>
             </div>

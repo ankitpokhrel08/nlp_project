@@ -11,6 +11,8 @@ import NERChat from "./components/NERChat";
 import NotFound from "./components/NotFound";
 import Documentation from "./components/Documentation";
 import DocumentationGuide from "./components/DocumentationGuide";
+import Guidelines from "./components/Guidelines";
+import Models from "./components/Models";
 
 // Home component with all the main sections
 const Home = () => (
@@ -33,6 +35,8 @@ const App = () => {
           <Route path="/ner/:modelName" element={<NERChat />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/documentation/guide" element={<DocumentationGuide />} />
+          <Route path="/documentation/guidelines" element={<Guidelines />} />
+          <Route path="/documentation/models" element={<Models />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
