@@ -104,16 +104,40 @@ const NERChat = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Format the entities response
-        let responseText = `Found ${data.entity_count} entities:\\n\\n`;
+        // Create a more natural response with proper formatting
+        let responseText;
 
         if (data.entities.length === 0) {
           responseText = "No named entities found in the provided text.";
         } else {
+          // Clean entity words by removing tokenizer artifacts
+          const cleanEntity = (word) => {
+            return word.replace(/^▁/, '').trim(); // Remove leading underscore from tokenizer
+          };
+
+          // Format entity type for better readability
+          const formatEntityType = (entityType) => {
+            const typeMap = {
+              'B-Person': 'Person',
+              'I-Person': 'Person',
+              'B-Location': 'Location', 
+              'I-Location': 'Location',
+              'B-Organization': 'Organization',
+              'I-Organization': 'Organization',
+              'B-Miscellaneous': 'Miscellaneous',
+              'I-Miscellaneous': 'Miscellaneous'
+            };
+            return typeMap[entityType] || entityType;
+          };
+
+          responseText = `Found ${data.entity_count} named entities:\n\n`;
+          
           data.entities.forEach((entity, index) => {
-            responseText += `${index + 1}. **${entity.word}** (${
-              entity.entity
-            }) - Confidence: ${entity.confidence}\\n`;
+            const cleanWord = cleanEntity(entity.word);
+            const entityType = formatEntityType(entity.entity);
+            const confidence = (entity.confidence * 100).toFixed(1);
+            
+            responseText += `${index + 1}. "${cleanWord}" → ${entityType} (${confidence}% confidence)\n`;
           });
         }
 
@@ -123,6 +147,7 @@ const NERChat = () => {
           sender: "bot",
           timestamp: new Date(),
           entities: data.entities, // Store entities for potential future use
+          isFormatted: true // Flag to indicate this needs special rendering
         };
         setMessages((prev) => [...prev, botResponse]);
       } else {
@@ -215,9 +240,44 @@ const NERChat = () => {
                           : "bg-n-6/80 text-n-1 border border-n-5/50"
                       }`}
                     >
-                      <p className="text-sm md:text-base leading-relaxed whitespace-pre-line">
-                        {message.text}
-                      </p>
+                      {/* Enhanced rendering for NER results */}
+                      {message.sender === "bot" && message.entities ? (
+                        <div>
+                          <p className="text-sm md:text-base leading-relaxed mb-3">
+                            Found {message.entities.length} named entities:
+                          </p>
+                          <div className="space-y-2">
+                            {message.entities.map((entity, index) => {
+                              const cleanWord = entity.word.replace(/^▁/, '').trim();
+                              const entityType = entity.entity.replace(/^[BI]-/, '');
+                              const confidence = (entity.confidence * 100).toFixed(1);
+                              
+                              return (
+                                <div key={index} className="flex items-center justify-between bg-n-5/30 rounded-lg p-2">
+                                  <div className="flex items-center gap-3">
+                                    <span className="bg-color-1 text-white px-2 py-1 rounded text-xs font-semibold">
+                                      {index + 1}
+                                    </span>
+                                    <span className="font-semibold text-color-2">
+                                      "{cleanWord}"
+                                    </span>
+                                    <span className="px-2 py-1 bg-n-4/20 rounded text-xs">
+                                      {entityType}
+                                    </span>
+                                  </div>
+                                  <span className="text-xs text-n-3">
+                                    {confidence}%
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-sm md:text-base leading-relaxed whitespace-pre-line">
+                          {message.text}
+                        </p>
+                      )}
                       <span className="text-xs opacity-70 mt-1 block">
                         {message.timestamp.toLocaleTimeString([], {
                           hour: "2-digit",
