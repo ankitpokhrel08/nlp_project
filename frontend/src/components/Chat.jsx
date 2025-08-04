@@ -41,7 +41,7 @@ const Chat = () => {
   const getSamplePrompts = () => {
     if (modelType === "lemmatizer") {
       return [
-        "पढ्दै",
+        "जन्मेका",
         "खेल्दै",
         "खाइरहेको",
         "गरिरहेका",
@@ -68,12 +68,18 @@ const Chat = () => {
       ];
     } else if (modelType === "aspect") {
       return [
-        "यो सरकारले राम्रो काम गरेको छ।",
-        "नेताहरु भ्रष्ट छन्।",
-        "यो विधेयक खारेज हुनुपर्छ।",
-        "त्यो मान्छेलाई तुरुन्तै कारबाही गरियोस्।",
-        "राष्ट्रपतिको भाषण प्रभावशाली थियो।",
-        "यो नीति निकै राम्रो छ।",
+        // "यो सरकारले राम्रो काम गरेको छ।",
+        // "नेताहरु भ्रष्ट छन्।",
+        // "यो विधेयक खारेज हुनुपर्छ।",
+        // "त्यो मान्छेलाई तुरुन्तै कारबाही गरियोस्।",
+        // "राष्ट्रपतिको भाषण प्रभावशाली थियो।",
+        // "यो नीति निकै राम्रो छ।",
+        "माडबारि कुनै हालात मा नेपाली होइन भतुवा हो | भतुवा",
+        "यो अपराधि प्रचन्डे को झोले धेरै फुर्ति नगरे हुन्छ पुण्य गौतम कुकुर हो | अपराधि",
+        "रातो कोट लगाउने सर ले राम्रो कुरा गर्नु भयो निलो कोट ले गोबर कुरा गरयो निलो कोटे छि छि छि | छि छि छि",
+        "रबि सर लाई रिहाइ गरियोस | रिहाइ गरियोस", 
+        "यो डकैति गर्ने लालिगुरास सहकारी लाई चाडो कारबाही होस् रामकृष्ण ढकाल लाई चाडो न्याय चाहियो | न्याय चाहियो",
+        "सालिकराम पुडासैनी को हत्या मा किशोर श्रेष्ठ को हात छ भनि म ठोकुवा गरि भन्छु | हत्या",
       ];
     } else {
       return [
@@ -287,70 +293,12 @@ const Chat = () => {
         data = await response.json();
 
         if (data.success) {
-          let responseText = `📊 Morphological Analysis\n`;
-          responseText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-
-          data.words.forEach((wordData, index) => {
-            responseText += `${index + 1}. 📝 "${wordData.word}"\n`;
-
-            if (wordData.analyses && wordData.analyses.length > 0) {
-              // Find the best analysis (prefer Root + Suffix over Root Word, and non-null POS)
-              let bestAnalysis = wordData.analyses[0];
-              if (wordData.analyses.length > 1) {
-                bestAnalysis =
-                  wordData.analyses.find(
-                    (a) =>
-                      a.type === "Root + Suffix" && a.pos && a.pos !== "null"
-                  ) ||
-                  wordData.analyses.find((a) => a.pos && a.pos !== "null") ||
-                  wordData.analyses[0];
-              }
-
-              if (bestAnalysis.type === "Unknown") {
-                responseText += `   ❓ Status: Not found in dictionary\n`;
-              } else {
-                responseText += `   🌱 Root: ${bestAnalysis.root}\n`;
-
-                if (bestAnalysis.suffix && bestAnalysis.suffix.trim()) {
-                  responseText += `   📎 Suffix: ${bestAnalysis.suffix}\n`;
-                }
-
-                if (bestAnalysis.pos && bestAnalysis.pos !== "null") {
-                  const posNames = {
-                    NN: "Noun",
-                    VF: "Verb (Finite)",
-                    ADJ: "Adjective",
-                    ADR: "Adverb",
-                    PN: "Proper Noun",
-                    PPG: "Postposition",
-                    CCON: "Conjunction",
-                  };
-                  const posName =
-                    posNames[bestAnalysis.pos] || bestAnalysis.pos;
-                  responseText += `   🏷️ Type: ${posName}\n`;
-                }
-
-                if (bestAnalysis.type === "Root + Suffix") {
-                  responseText += `   ⚙️ Analysis: Inflected word\n`;
-                } else {
-                  responseText += `   ⚙️ Analysis: Root word\n`;
-                }
-              }
-            }
-            responseText += `\n`;
-          });
-
-          responseText += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-          responseText += `Summary: ${data.statistics.total_words} words • `;
-          responseText += `${data.statistics.analyzed_words} analyzed • `;
-          responseText += `${data.statistics.root_words} roots • `;
-          responseText += `${data.statistics.unknown_words} unknown`;
-
           const botResponse = {
             id: Date.now() + 1,
-            text: responseText,
+            text: "Morphological Analysis Complete",
             sender: "bot",
             timestamp: new Date(),
+            morphAnalysis: data, // Store the structured data for rendering
           };
           setMessages((prev) => [...prev, botResponse]);
         } else {
@@ -541,9 +489,122 @@ const Chat = () => {
                           : "bg-n-6 text-n-1 border border-n-5"
                       }`}
                     >
-                      <p className="text-base leading-relaxed">
-                        {message.text}
-                      </p>
+                      {/* Enhanced rendering for morphological analysis */}
+                      {message.sender === "bot" && message.morphAnalysis ? (
+                        <div>
+                          <div className="mb-4">
+                            <h4 className="text-lg font-semibold text-n-1 mb-2 flex items-center gap-2">
+                              📊 Morphological Analysis
+                            </h4>
+                            <div className="border-t border-n-5 mb-3"></div>
+                          </div>
+                          
+                          <div className="space-y-4">
+                            {message.morphAnalysis.words.map((wordData, index) => {
+                              // Find the best analysis
+                              let bestAnalysis = wordData.analyses?.[0];
+                              if (wordData.analyses?.length > 1) {
+                                bestAnalysis =
+                                  wordData.analyses.find(
+                                    (a) =>
+                                      a.type === "Root + Suffix" && a.pos && a.pos !== "null"
+                                  ) ||
+                                  wordData.analyses.find((a) => a.pos && a.pos !== "null") ||
+                                  wordData.analyses[0];
+                              }
+
+                              const posNames = {
+                                NN: "Noun",
+                                VF: "Verb (Finite)",
+                                ADJ: "Adjective",
+                                ADR: "Adverb",
+                                PN: "Proper Noun",
+                                PPG: "Postposition",
+                                CCON: "Conjunction",
+                                PFS: "Personal Pronoun"
+                              };
+
+                              return (
+                                <div key={index} className="bg-n-5/30 rounded-lg p-3">
+                                  <div className="flex items-center gap-3 mb-3">
+                                    <span className="bg-n-4 text-n-1 px-2 py-1 rounded text-sm font-semibold">
+                                      {index + 1}
+                                    </span>
+                                    <span className="text-lg font-semibold text-n-1">
+                                      📝 "{wordData.word}"
+                                    </span>
+                                  </div>
+                                  
+                                  {bestAnalysis?.type === "Unknown" ? (
+                                    <div className="flex items-center gap-2 text-yellow-300">
+                                      <span>❓</span>
+                                      <span>Status: Not found in dictionary</span>
+                                    </div>
+                                  ) : (
+                                    <div className="space-y-2">
+                                      <div className="flex items-center gap-2">
+                                        <span>🌱</span>
+                                        <span className="text-green-300 font-medium">Root: {bestAnalysis?.root}</span>
+                                      </div>
+                                      
+                                      {bestAnalysis?.suffix && bestAnalysis.suffix.trim() && (
+                                        <div className="flex items-center gap-2">
+                                          <span>📎</span>
+                                          <span className="text-blue-300 font-medium">Suffix: {bestAnalysis.suffix}</span>
+                                        </div>
+                                      )}
+                                      
+                                      {bestAnalysis?.pos && bestAnalysis.pos !== "null" && (
+                                        <div className="flex items-center gap-2">
+                                          <span>🏷️</span>
+                                          <span className="text-purple-300 font-medium">
+                                            Type: {posNames[bestAnalysis.pos] || bestAnalysis.pos}
+                                          </span>
+                                        </div>
+                                      )}
+                                      
+                                      <div className="flex items-center gap-2">
+                                        <span>⚙️</span>
+                                        <span className="text-orange-300 font-medium">
+                                          Analysis: {bestAnalysis?.type === "Root + Suffix" ? "Inflected word" : "Root word"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                          
+                          <div className="mt-4 pt-3 border-t border-n-5">
+                            <div className="bg-n-5/20 rounded-lg p-3">
+                              <h5 className="font-semibold text-n-1 mb-2">📈 Summary Statistics</h5>
+                              <div className="grid grid-cols-2 gap-2 text-sm">
+                                <div className="flex justify-between">
+                                  <span>Total Words:</span>
+                                  <span className="font-semibold text-blue-300">{message.morphAnalysis.statistics.total_words}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Analyzed:</span>
+                                  <span className="font-semibold text-green-300">{message.morphAnalysis.statistics.analyzed_words}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Root Words:</span>
+                                  <span className="font-semibold text-purple-300">{message.morphAnalysis.statistics.root_words}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span>Unknown:</span>
+                                  <span className="font-semibold text-yellow-300">{message.morphAnalysis.statistics.unknown_words}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-base leading-relaxed">
+                          {message.text}
+                        </p>
+                      )}
                       <span className="text-xs opacity-70 mt-1 block">
                         {message.timestamp.toLocaleTimeString([], {
                           hour: "2-digit",
