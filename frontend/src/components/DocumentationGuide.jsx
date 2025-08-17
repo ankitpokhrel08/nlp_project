@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Section from "./Section";
 import Header from "./Header";
 import Footer from "./Footer";
+import API_CONFIG from "../config/api.js";
 
 const DocumentationGuide = () => {
   const [activeSection, setActiveSection] = useState("users");

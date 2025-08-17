@@ -3,6 +3,7 @@ import Section from "./Section";
 import Header from "./Header";
 import Footer from "./Footer";
 import Button from "./Button";
+import API_CONFIG from "../config/api.js";
 
 const Models = () => {
   const [activeModel, setActiveModel] = useState("nepaligpt");
@@ -426,7 +427,7 @@ const Models = () => {
                     <div className="mb-2">
                       <span className="text-gray-600">URL:</span>{" "}
                       <span className="text-green-600">
-                        http://localhost:5001/
+                        {API_CONFIG.BASE_URL}/
                         {currentModel.id === "nepaligpt"
                           ? "chat"
                           : currentModel.id === "ner"
