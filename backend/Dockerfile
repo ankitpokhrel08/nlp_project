@@ -20,8 +20,11 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements first for better caching
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies with optimizations for faster deployment
+RUN pip install --no-cache-dir --timeout 1000 --retries 3 \
+    --index-url https://download.pytorch.org/whl/cpu \
+    torch==2.5.1 && \
+    pip install --no-cache-dir --timeout 1000 -r requirements.txt
 
 # Copy the application code
 COPY . .

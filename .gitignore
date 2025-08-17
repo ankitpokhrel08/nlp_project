@@ -48,23 +48,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# Virtual environments (CRITICAL - these are huge!)
-backend/myenv/
-backend/venv/
-backend/env/
-venv/
-env/
-ENV/
-
-# Model files (CRITICAL - these are huge!)
-backend/model/
-*.bin
-*.safetensors
-*.onnx
-*.h5
-*.pkl
-*.joblib
-
 # Cache directories
 .cache/
 __pycache__/
@@ -87,4 +70,3 @@ __pycache__/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
