@@ -8,6 +8,4 @@ huggingface-hub
 safetensors
 requests
 scipy
-
-
- 
+gunicorn==21.2.0

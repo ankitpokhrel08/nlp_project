@@ -69,7 +69,7 @@ const Documentation = () => {
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white"
                   href="/documentation/models"
                 >
-                  Learn More
+                  Explore Models
                 </Button>
               </div>
             </div>

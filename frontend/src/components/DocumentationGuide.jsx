@@ -709,92 +709,6 @@ class HuggingFaceModel:
 
           <div>
             <h4 className="text-lg font-semibold text-gray-900 mb-3">
-              Popular HuggingFace Models for NLP
-            </h4>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🎭 Sentiment Analysis
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    •{" "}
-                    <code>
-                      cardiffnlp/twitter-roberta-base-sentiment-latest
-                    </code>
-                  </li>
-                  <li>
-                    •{" "}
-                    <code>distilbert-base-uncased-finetuned-sst-2-english</code>
-                  </li>
-                  <li>
-                    •{" "}
-                    <code>
-                      nlptown/bert-base-multilingual-uncased-sentiment
-                    </code>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🏷️ Named Entity Recognition
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>dslim/bert-base-NER</code>
-                  </li>
-                  <li>
-                    •{" "}
-                    <code>
-                      dbmdz/bert-large-cased-finetuned-conll03-english
-                    </code>
-                  </li>
-                  <li>
-                    • <code>microsoft/DialoGPT-medium</code>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  📝 Text Generation
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>gpt2</code>, <code>gpt2-medium</code>,{" "}
-                    <code>gpt2-large</code>
-                  </li>
-                  <li>
-                    • <code>microsoft/DialoGPT-small</code>
-                  </li>
-                  <li>
-                    • <code>facebook/blenderbot-400M-distill</code>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🔤 Text Classification
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>facebook/bart-large-mnli</code>
-                  </li>
-                  <li>
-                    • <code>microsoft/deberta-v3-large</code>
-                  </li>
-                  <li>
-                    • <code>roberta-base</code>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">
               Environment Variables & Configuration
             </h4>
             <p className="text-gray-600 mb-4">
@@ -989,90 +903,6 @@ class GitHubModelsClient:
 
           <div>
             <h4 className="text-lg font-semibold text-gray-900 mb-3">
-              Available GitHub Models
-            </h4>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🤖 OpenAI Models
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>gpt-4o</code> - Most capable model
-                  </li>
-                  <li>
-                    • <code>gpt-4o-mini</code> - Fast and efficient
-                  </li>
-                  <li>
-                    • <code>o1-preview</code> - Advanced reasoning
-                  </li>
-                  <li>
-                    • <code>text-embedding-3-large</code> - Embeddings
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🦙 Meta Llama Models
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>Meta-Llama-3.1-405B-Instruct</code>
-                  </li>
-                  <li>
-                    • <code>Meta-Llama-3.1-70B-Instruct</code>
-                  </li>
-                  <li>
-                    • <code>Meta-Llama-3.1-8B-Instruct</code>
-                  </li>
-                  <li>
-                    • <code>Meta-Llama-3-8B-Instruct</code>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🎯 Microsoft Models
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>Phi-3-medium-128k-instruct</code>
-                  </li>
-                  <li>
-                    • <code>Phi-3-mini-128k-instruct</code>
-                  </li>
-                  <li>
-                    • <code>Phi-3-small-128k-instruct</code>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-                <h5 className="text-lg font-semibold text-gray-900 mb-3">
-                  🗣️ Cohere Models
-                </h5>
-                <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>
-                    • <code>Cohere-command-r</code>
-                  </li>
-                  <li>
-                    • <code>Cohere-command-r-plus</code>
-                  </li>
-                  <li>
-                    • <code>Cohere-embed-v3-english</code>
-                  </li>
-                  <li>
-                    • <code>Cohere-embed-v3-multilingual</code>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">
               Flask Integration Example
             </h4>
             <p className="text-gray-600 mb-4">
@@ -1254,9 +1084,11 @@ def github_embeddings():
               Documentation Guide
             </h1>
             <p className="text-xl text-gray-600 leading-relaxed max-w-4xl">
-              Welcome to the NLP Projects documentation! This page will give you
-              an introduction to 80% of the concepts that you will use on a
-              daily basis when working with our platform.
+              Welcome to the NLP Projects Documentation. This documentation
+              serves as a comprehensive guide for both general users and
+              developers. Whether you’re looking to run our models locally on
+              your device or integrate your own models into the platform, you’ll
+              find everything you need to get started and go deeper.
             </p>
           </div>
 

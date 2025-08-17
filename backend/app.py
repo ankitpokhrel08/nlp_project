@@ -79,7 +79,7 @@ def load_model():
             global aspect_tokenizer, aspect_model
             model_name = "Karinkato/Aspect_based_sentiment_analysis"
             aspect_tokenizer = BertTokenizer.from_pretrained(model_name)
-            aspect_model = BertForSequenceClassification.from_pretrained(model_name)
+            aspect_model = BertForSequenceClassification.from_pretrained(model_name,num_labels=4)
             
             # Set device to GPU if available
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -559,8 +559,10 @@ if __name__ == '__main__':
     
     # Load model on startup
     if load_model():
-        logger.info("Starting Flask server on port 5001...")
-        app.run(host='0.0.0.0', port=5001, debug=True)
+        # Get port from environment variable or default to 8000
+        port = int(os.environ.get('PORT', 8000))
+        logger.info(f"Starting Flask server on port {port}...")
+        app.run(host='0.0.0.0', port=port, debug=False)
     else:
         logger.error("Failed to load model. Exiting...")
         exit(1)

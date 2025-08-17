@@ -15,7 +15,7 @@ const Footer = () => {
           </p>
           <p className="text-sm text-gray-500">
             Made with ❤️ by{" "}
-            <span className="font-semibold text-brand-primary">079BCTA</span>
+            <span className="font-semibold text-brand-primary">PUL079BCTA</span>
           </p>
         </div>
 
