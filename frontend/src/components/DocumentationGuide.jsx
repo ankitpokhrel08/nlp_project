@@ -165,10 +165,10 @@ source myenv/bin/activate`}</code>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <p className="text-green-800 text-sm">
-                <strong>✅ Success:</strong> Your backend server should now be
-                running on{" "}
+                <strong>✅ Success:</strong> Your backend server is now deployed
+                at{" "}
                 <code className="bg-green-200 px-2 py-1 rounded">
-                  http://localhost:5000
+                  https://nlp_backend.itclub.asmitphuyal.com.np
                 </code>
               </p>
             </div>
@@ -474,7 +474,7 @@ def yourmodel_api():
         
         # Forward request to your model service
         response = requests.post(
-            'http://localhost:5002/predict',
+            'https://nlp_backend.itclub.asmitphuyal.com.np/generate',
             json=data,
             timeout=30
         )

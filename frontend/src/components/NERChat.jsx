@@ -4,6 +4,7 @@ import Section from "./Section";
 import Button from "./Button";
 import Header from "./Header";
 import Footer from "./Footer";
+import API_CONFIG from "../config/api.js";
 
 const NERChat = () => {
   const { modelName } = useParams();
@@ -87,15 +88,18 @@ const NERChat = () => {
 
     try {
       // Call the Flask NER API
-      const response = await fetch("http://localhost:5001/ner", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: userMessage.text,
-        }),
-      });
+      const response = await fetch(
+        `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.NER}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: userMessage.text,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -112,32 +116,34 @@ const NERChat = () => {
         } else {
           // Clean entity words by removing tokenizer artifacts
           const cleanEntity = (word) => {
-            return word.replace(/^▁/, '').trim(); // Remove leading underscore from tokenizer
+            return word.replace(/^▁/, "").trim(); // Remove leading underscore from tokenizer
           };
 
           // Format entity type for better readability
           const formatEntityType = (entityType) => {
             const typeMap = {
-              'B-Person': 'Person',
-              'I-Person': 'Person',
-              'B-Location': 'Location', 
-              'I-Location': 'Location',
-              'B-Organization': 'Organization',
-              'I-Organization': 'Organization',
-              'B-Miscellaneous': 'Miscellaneous',
-              'I-Miscellaneous': 'Miscellaneous'
+              "B-Person": "Person",
+              "I-Person": "Person",
+              "B-Location": "Location",
+              "I-Location": "Location",
+              "B-Organization": "Organization",
+              "I-Organization": "Organization",
+              "B-Miscellaneous": "Miscellaneous",
+              "I-Miscellaneous": "Miscellaneous",
             };
             return typeMap[entityType] || entityType;
           };
 
           responseText = `Found ${data.entity_count} named entities:\n\n`;
-          
+
           data.entities.forEach((entity, index) => {
             const cleanWord = cleanEntity(entity.word);
             const entityType = formatEntityType(entity.entity);
             const confidence = (entity.confidence * 100).toFixed(1);
-            
-            responseText += `${index + 1}. "${cleanWord}" → ${entityType} (${confidence}% confidence)\n`;
+
+            responseText += `${
+              index + 1
+            }. "${cleanWord}" → ${entityType} (${confidence}% confidence)\n`;
           });
         }
 
@@ -147,7 +153,7 @@ const NERChat = () => {
           sender: "bot",
           timestamp: new Date(),
           entities: data.entities, // Store entities for potential future use
-          isFormatted: true // Flag to indicate this needs special rendering
+          isFormatted: true, // Flag to indicate this needs special rendering
         };
         setMessages((prev) => [...prev, botResponse]);
       } else {
@@ -248,12 +254,22 @@ const NERChat = () => {
                           </p>
                           <div className="space-y-2">
                             {message.entities.map((entity, index) => {
-                              const cleanWord = entity.word.replace(/^▁/, '').trim();
-                              const entityType = entity.entity.replace(/^[BI]-/, '');
-                              const confidence = (entity.confidence * 100).toFixed(1);
-                              
+                              const cleanWord = entity.word
+                                .replace(/^▁/, "")
+                                .trim();
+                              const entityType = entity.entity.replace(
+                                /^[BI]-/,
+                                ""
+                              );
+                              const confidence = (
+                                entity.confidence * 100
+                              ).toFixed(1);
+
                               return (
-                                <div key={index} className="flex items-center justify-between bg-n-5/30 rounded-lg p-2">
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between bg-n-5/30 rounded-lg p-2"
+                                >
                                   <div className="flex items-center gap-3">
                                     <span className="bg-color-1 text-white px-2 py-1 rounded text-xs font-semibold">
                                       {index + 1}
