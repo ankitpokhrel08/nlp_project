@@ -7,9 +7,11 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: process.env.PORT || 8009,
+    allowedHosts: ["all"], // Allow all hosts including Render/Coolify domains
   },
   preview: {
     host: "0.0.0.0",
     port: process.env.PORT || 8009,
+    allowedHosts: ["all"], // Allow all hosts including Render/Coolify domains
   },
 });
