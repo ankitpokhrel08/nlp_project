@@ -18,6 +18,10 @@ const Benefits = () => {
 
   const handleTryNow = (e, modelName = null) => {
     e.stopPropagation(); // Prevent opening popup when clicking Try Now
+
+    // Save current scroll position before navigating away
+    sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
+
     // Get model name from selectedBenefit if in popup, or from parameter if in card
     const modelToUse = modelName || selectedBenefit?.title;
     if (modelToUse) {

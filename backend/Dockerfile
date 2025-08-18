@@ -8,7 +8,7 @@ WORKDIR /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_ENV=production
-ENV PORT=8080
+ENV PORT=8007
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -33,11 +33,11 @@ COPY . .
 RUN mkdir -p /app/.cache/transformers /app/.cache/huggingface
 
 # Expose the port
-EXPOSE 8080
+EXPOSE 8007
 
 # Health check for Coolify
 HEALTHCHECK --interval=30s --timeout=30s --start-period=120s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
+    CMD curl -f http://localhost:8007/health || exit 1
 
 # Command to run the application
 CMD ["python", "app.py"]

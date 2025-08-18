@@ -180,6 +180,11 @@ const Chat = () => {
 
   // Focus input when component mounts
   useEffect(() => {
+    // Ensure page starts at top when component mounts
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
     setTimeout(() => {
       inputRef.current?.focus();
     }, 100);

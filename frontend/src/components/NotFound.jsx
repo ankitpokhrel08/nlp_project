@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Section from "./Section";
 import Heading from "./Heading";
 import Button from "./Button";
@@ -7,6 +8,13 @@ import Footer from "./Footer";
 
 const NotFound = () => {
   const navigate = useNavigate();
+
+  // Ensure page starts at top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
 
   const goHome = () => {
     navigate("/");

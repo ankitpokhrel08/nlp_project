@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Section from "./Section";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const Guidelines = () => {
+  // Ensure page starts at top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
+
   return (
     <>
       <Header />

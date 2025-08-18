@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Section from "./Section";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -7,6 +7,13 @@ import API_CONFIG from "../config/api.js";
 
 const Models = () => {
   const [activeModel, setActiveModel] = useState("nepaligpt");
+
+  // Ensure page starts at top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, []);
 
   const models = {
     nepaligpt: {

@@ -13,6 +13,7 @@ import Documentation from "./components/Documentation";
 import DocumentationGuide from "./components/DocumentationGuide";
 import Guidelines from "./components/Guidelines";
 import Models from "./components/Models";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Home component with all the main sections
 const Home = () => (
@@ -29,6 +30,7 @@ const App = () => {
   return (
     <>
       <div className="pt-[4.5rem] lg:pt-[5rem] overflow-hidden">
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chat/:modelName" element={<Chat />} />
