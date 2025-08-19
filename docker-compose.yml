@@ -1,0 +1,104 @@
+# 🐳 Docker Compose Configuration for Nepali NLP Platform
+# Note: This is for local development only.
+# For Coolify deployment, use individual Dockerfiles in backend/ and frontend/
+
+version: "3.8"
+
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nepali-nlp-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Core Configuration
+      - PORT=8000
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+      - PYTHONUNBUFFERED=1
+
+      # Python Path Configuration
+      - PYTHONPATH=/app
+
+      # Model Caching
+      - TRANSFORMERS_CACHE=/app/.cache/transformers
+      - HF_HOME=/app/.cache/huggingface
+      - TORCH_HOME=/app/.cache/torch
+
+      # Performance Tuning
+      - TOKENIZERS_PARALLELISM=false
+      - OMP_NUM_THREADS=2
+    volumes:
+      # Persistent model cache
+      - model_cache:/app/.cache
+      # Log persistence
+      - ./logs/backend:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s # Allow time for models to load
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+          cpus: "4.0"
+        reservations:
+          memory: 4G
+          cpus: "2.0"
+    networks:
+      - nepali-nlp-network
+
+  # Frontend Web Application
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nepali-nlp-frontend
+    ports:
+      - "8009:8009"
+    environment:
+      # Core Configuration
+      - PORT=8009
+      - NODE_ENV=production
+
+      # API Configuration - Local development
+      - VITE_API_BASE_URL=http://backend:8000
+    volumes:
+      # Log persistence
+      - ./logs/frontend:/var/log
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8009/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.0"
+        reservations:
+          memory: 512M
+          cpus: "0.5"
+    networks:
+      - nepali-nlp-network
+
+# Persistent Volumes
+volumes:
+  # Model cache for backend
+  model_cache:
+    driver: local
+
+# Network Configuration
+networks:
+  nepali-nlp-network:
+    driver: bridge

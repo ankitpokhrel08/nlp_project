@@ -5,8 +5,13 @@
   </head>
   <body>
     <h1>Backend API Test</h1>
-    <button onclick="testHealth()">Test Health Endpoint</button>
-    <button onclick="testGenerate()">Test Generate Endpoint</button>
+    <button onclick="testHealth()">Test Health</button>
+    <button onclick="testGenerate()">Test Generate</button>
+    <button onclick="testNER()">Test NER</button>
+    <button onclick="testLemmatize()">Test Lemmatize</button>
+    <button onclick="testStemmer()">Test Stemmer</button>
+    <button onclick="testAspect()">Test Aspect</button>
+    <button onclick="testModelInfo()">Test Model Info</button>
     <div id="result"></div>
 
     <script>
@@ -41,6 +46,123 @@
               max_length: 50,
             }),
           });
+          const data = await response.json();
+          document.getElementById("result").innerHTML = `<pre>${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        } catch (error) {
+          document.getElementById(
+            "result"
+          ).innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          console.error("Error:", error);
+        }
+      }
+
+      async function testNER() {
+        try {
+          const response = await fetch(`${BASE_URL}/ner`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: "राम काठमाडौंमा बस्छ।",
+            }),
+          });
+          const data = await response.json();
+          document.getElementById("result").innerHTML = `<pre>${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        } catch (error) {
+          document.getElementById(
+            "result"
+          ).innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          console.error("Error:", error);
+        }
+      }
+
+      async function testLemmatize() {
+        try {
+          const response = await fetch(`${BASE_URL}/lemmatize`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: "केटाहरु खेल्दै छन्",
+            }),
+          });
+          const data = await response.json();
+          document.getElementById("result").innerHTML = `<pre>${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        } catch (error) {
+          document.getElementById(
+            "result"
+          ).innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          console.error("Error:", error);
+        }
+      }
+
+      async function testStemmer() {
+        try {
+          const response = await fetch(`${BASE_URL}/stemmer`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: "केटाहरु",
+            }),
+          });
+          const data = await response.json();
+          document.getElementById("result").innerHTML = `<pre>${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        } catch (error) {
+          document.getElementById(
+            "result"
+          ).innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          console.error("Error:", error);
+        }
+      }
+
+      async function testAspect() {
+        try {
+          const response = await fetch(`${BASE_URL}/aspect`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              text: "यो फिल्म राम्रो छ",
+            }),
+          });
+          const data = await response.json();
+          document.getElementById("result").innerHTML = `<pre>${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        } catch (error) {
+          document.getElementById(
+            "result"
+          ).innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+          console.error("Error:", error);
+        }
+      }
+
+      async function testModelInfo() {
+        try {
+          const response = await fetch(`${BASE_URL}/model-info`);
           const data = await response.json();
           document.getElementById("result").innerHTML = `<pre>${JSON.stringify(
             data,

@@ -113,52 +113,116 @@ const NERChat = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Create a more natural response with proper formatting
-        let responseText;
+        // Group entities by combining B- and I- tags
+        const groupEntities = (entities, originalText) => {
+          const grouped = [];
+          let currentGroup = null;
 
-        if (data.entities.length === 0) {
-          responseText = "No named entities found in the provided text.";
-        } else {
-          // Clean entity words by removing tokenizer artifacts
-          const cleanEntity = (word) => {
-            return word.replace(/^▁/, "").trim(); // Remove leading underscore from tokenizer
-          };
+          entities.forEach((entity, index) => {
+            const cleanWord = entity.word.replace(/^▁/, "").trim();
+            const entityTag = entity.entity;
+            const entityType = entityTag.replace(/^[BI]-/, ""); // Remove B- or I- prefix
 
-          // Format entity type for better readability
-          const formatEntityType = (entityType) => {
-            const typeMap = {
-              "B-Person": "Person",
-              "I-Person": "Person",
-              "B-Location": "Location",
-              "I-Location": "Location",
-              "B-Organization": "Organization",
-              "I-Organization": "Organization",
-              "B-Miscellaneous": "Miscellaneous",
-              "I-Miscellaneous": "Miscellaneous",
-            };
-            return typeMap[entityType] || entityType;
-          };
-
-          responseText = `Found ${data.entity_count} named entities:\n\n`;
-
-          data.entities.forEach((entity, index) => {
-            const cleanWord = cleanEntity(entity.word);
-            const entityType = formatEntityType(entity.entity);
-            const confidence = (entity.confidence * 100).toFixed(1);
-
-            responseText += `${
-              index + 1
-            }. "${cleanWord}" → ${entityType} (${confidence}% confidence)\n`;
+            if (entityTag.startsWith("B-")) {
+              // Start new entity group
+              if (currentGroup) {
+                grouped.push(currentGroup);
+              }
+              currentGroup = {
+                words: [cleanWord],
+                type: entityType,
+                confidences: [entity.confidence],
+                start: entity.start,
+                end: entity.end,
+                positions: [
+                  { start: entity.start, end: entity.end, word: cleanWord },
+                ],
+              };
+            } else if (
+              entityTag.startsWith("I-") &&
+              currentGroup &&
+              currentGroup.type === entityType
+            ) {
+              // Continue current entity group
+              currentGroup.words.push(cleanWord);
+              currentGroup.confidences.push(entity.confidence);
+              currentGroup.end = entity.end;
+              currentGroup.positions.push({
+                start: entity.start,
+                end: entity.end,
+                word: cleanWord,
+              });
+            } else {
+              // Handle case where I- tag appears without B- tag (treat as new entity)
+              if (currentGroup) {
+                grouped.push(currentGroup);
+              }
+              currentGroup = {
+                words: [cleanWord],
+                type: entityType,
+                confidences: [entity.confidence],
+                start: entity.start,
+                end: entity.end,
+                positions: [
+                  { start: entity.start, end: entity.end, word: cleanWord },
+                ],
+              };
+            }
           });
-        }
+
+          // Add the last group
+          if (currentGroup) {
+            grouped.push(currentGroup);
+          }
+
+          // Format combined entities based on original text positioning
+          return grouped.map((group) => {
+            let combinedText;
+
+            if (group.positions.length === 1) {
+              combinedText = group.words[0];
+            } else {
+              // Check if words are consecutive in original text
+              const textSegment = originalText.substring(
+                group.start,
+                group.end
+              );
+
+              // If the extracted segment from original text contains all words, use it
+              if (textSegment && textSegment.trim()) {
+                combinedText = textSegment.trim();
+              } else {
+                // Fallback: join words with space
+                combinedText = group.words.join(" ");
+              }
+            }
+
+            // Calculate average confidence
+            const avgConfidence =
+              group.confidences.reduce((sum, conf) => sum + conf, 0) /
+              group.confidences.length;
+
+            return {
+              word: combinedText,
+              entity: group.type,
+              confidence: avgConfidence,
+              start: group.start,
+              end: group.end,
+              wordCount: group.words.length,
+            };
+          });
+        };
+
+        const groupedEntities = groupEntities(data.entities, userMessage.text);
 
         const botResponse = {
           id: Date.now() + 1,
-          text: responseText,
+          text: `Found ${groupedEntities.length} named entities`,
           sender: "bot",
           timestamp: new Date(),
-          entities: data.entities, // Store entities for potential future use
-          isFormatted: true, // Flag to indicate this needs special rendering
+          entities: groupedEntities, // Store grouped entities
+          originalText: userMessage.text,
+          isFormatted: true,
         };
         setMessages((prev) => [...prev, botResponse]);
       } else {
@@ -254,44 +318,104 @@ const NERChat = () => {
                       {/* Enhanced rendering for NER results */}
                       {message.sender === "bot" && message.entities ? (
                         <div>
-                          <p className="text-sm md:text-base leading-relaxed mb-3">
-                            Found {message.entities.length} named entities:
-                          </p>
+                          <div className="mb-3">
+                            <p className="text-sm md:text-base leading-relaxed mb-2">
+                              Found {message.entities.length} named entities:
+                            </p>
+                            {message.originalText && (
+                              <div className="bg-n-5/20 rounded-lg p-2 mb-3">
+                                <span className="text-xs text-n-4">
+                                  Analyzed text:
+                                </span>
+                                <p className="text-sm italic text-n-2">
+                                  "{message.originalText}"
+                                </p>
+                              </div>
+                            )}
+                          </div>
+
                           <div className="space-y-2">
                             {message.entities.map((entity, index) => {
-                              const cleanWord = entity.word
-                                .replace(/^▁/, "")
-                                .trim();
-                              const entityType = entity.entity.replace(
-                                /^[BI]-/,
-                                ""
-                              );
                               const confidence = (
                                 entity.confidence * 100
                               ).toFixed(1);
 
+                              // Color coding for different entity types
+                              const getEntityColor = (type) => {
+                                switch (type.toLowerCase()) {
+                                  case "person":
+                                    return "bg-green-500/20 border-green-400";
+                                  case "location":
+                                    return "bg-blue-500/20 border-blue-400";
+                                  case "organization":
+                                    return "bg-purple-500/20 border-purple-400";
+                                  case "miscellaneous":
+                                    return "bg-orange-500/20 border-orange-400";
+                                  default:
+                                    return "bg-gray-500/20 border-gray-400";
+                                }
+                              };
+
                               return (
                                 <div
                                   key={index}
-                                  className="flex items-center justify-between bg-n-5/30 rounded-lg p-2"
+                                  className={`flex items-center justify-between rounded-lg p-3 border ${getEntityColor(
+                                    entity.entity
+                                  )}`}
                                 >
                                   <div className="flex items-center gap-3">
                                     <span className="bg-color-1 text-white px-2 py-1 rounded text-xs font-semibold">
                                       {index + 1}
                                     </span>
-                                    <span className="font-semibold text-color-2">
-                                      "{cleanWord}"
-                                    </span>
-                                    <span className="px-2 py-1 bg-n-4/20 rounded text-xs">
-                                      {entityType}
+                                    <div className="flex flex-col">
+                                      <span className="font-semibold text-color-2">
+                                        "{entity.word}"
+                                      </span>
+                                      {entity.wordCount > 1 && (
+                                        <span className="text-xs text-n-4">
+                                          ({entity.wordCount} words combined)
+                                        </span>
+                                      )}
+                                    </div>
+                                    <span className="px-2 py-1 bg-n-4/20 rounded text-xs font-medium">
+                                      {entity.entity}
                                     </span>
                                   </div>
-                                  <span className="text-xs text-n-3">
-                                    {confidence}%
-                                  </span>
+                                  <div className="text-right">
+                                    <span className="text-xs text-n-3">
+                                      {confidence}%
+                                    </span>
+                                    <div className="text-xs text-n-4">
+                                      pos: {entity.start}-{entity.end}
+                                    </div>
+                                  </div>
                                 </div>
                               );
                             })}
+                          </div>
+
+                          {/* Summary section */}
+                          <div className="mt-3 pt-3 border-t border-n-5/30">
+                            <div className="grid grid-cols-2 gap-2 text-xs text-n-4">
+                              <div>
+                                Total entities:{" "}
+                                <span className="text-n-2 font-semibold">
+                                  {message.entities.length}
+                                </span>
+                              </div>
+                              <div>
+                                Entity types:{" "}
+                                <span className="text-n-2 font-semibold">
+                                  {
+                                    [
+                                      ...new Set(
+                                        message.entities.map((e) => e.entity)
+                                      ),
+                                    ].length
+                                  }
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       ) : (
