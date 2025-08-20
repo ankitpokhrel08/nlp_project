@@ -7,12 +7,13 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: process.env.PORT || 8009,
-    allowedHosts: ["frontend-6zz4.onrender.com"], // Allow the specific Render host
+    // Allow all hosts for flexibility with different deployment platforms
+    allowedHosts: "all",
     proxy: {
       "/api": {
         target: "https://nlp-backend.itclub.asmitphuyal.com.np",
         changeOrigin: true,
-        secure: true, // Can now use secure SSL since backend has valid certificate
+        secure: true, // Use secure SSL since backend has valid certificate
         rewrite: (path) => path.replace(/^\/api/, ""),
         configure: (proxy, options) => {
           // Add custom headers if needed
@@ -26,18 +27,34 @@ export default defineConfig({
   preview: {
     host: "0.0.0.0",
     port: process.env.PORT || 8009,
-    allowedHosts: ["frontend-6zz4.onrender.com"], // Allow the specific Render host
+    // Allow all hosts for flexibility with different deployment platforms
+    allowedHosts: "all",
     proxy: {
       "/api": {
         target: "https://nlp-backend.itclub.asmitphuyal.com.np",
         changeOrigin: true,
-        secure: true, // Can now use secure SSL since backend has valid certificate
+        secure: true, // Use secure SSL since backend has valid certificate
         rewrite: (path) => path.replace(/^\/api/, ""),
         configure: (proxy, options) => {
           // Add custom headers if needed
           proxy.on("proxyReq", (proxyReq, req, res) => {
             proxyReq.setHeader("Access-Control-Allow-Origin", "*");
           });
+        },
+      },
+    },
+  },
+  // Optimize build for production
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    sourcemap: false, // Disable sourcemaps in production for smaller bundle
+    minify: "terser", // Use terser for better minification
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+          router: ["react-router-dom"],
         },
       },
     },
