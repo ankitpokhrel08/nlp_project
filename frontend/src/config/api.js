@@ -5,7 +5,7 @@ const API_CONFIG = {
     import.meta.env.VITE_API_BASE_URL ||
     (import.meta.env.DEV
       ? "/api" // Use proxy in development
-      : "https://nlp_backend.itclub.asmitphuyal.com.np"),
+      : "https://nlp-backend.itclub.asmitphuyal.com.np"),
 
   // For local development (use port 8007 for Docker container)
   // BASE_URL: "http://localhost:8007",

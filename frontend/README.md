@@ -195,7 +195,7 @@ git push origin main
    NODE_ENV=production
 
    # API Configuration (No port needed in public URL)
-   VITE_API_BASE_URL=https://nlp_backend.itclub.asmitphuyal.com.np
+   VITE_API_BASE_URL=https://nlp-backend.itclub.asmitphuyal.com.np
 
    # Build Configuration
    GENERATE_SOURCEMAP=false
@@ -771,15 +771,15 @@ If your frontend cannot connect to the backend due to SSL certificate issues:
 
 **Solution 1: Accept Certificate Manually**
 
-1. Open backend URL directly: `https://nlp_backend.itclub.asmitphuyal.com.np`
-2. Click "Advanced" → "Proceed to nlp_backend.itclub.asmitphuyal.com.np (unsafe)"
+1. Open backend URL directly: `https://nlp-backend.itclub.asmitphuyal.com.np`
+2. Click "Advanced" → "Proceed to nlp-backend.itclub.asmitphuyal.com.np (unsafe)"
 3. Once accepted, refresh your frontend application
 
 **Solution 2: Use HTTP Instead (if available)**
 
 ```env
 # In .env.production (if backend supports HTTP)
-VITE_API_BASE_URL=http://nlp_backend.itclub.asmitphuyal.com.np
+VITE_API_BASE_URL=http://nlp-backend.itclub.asmitphuyal.com.np
 ```
 
 **Solution 3: For Development (already configured)**
@@ -803,10 +803,10 @@ proxy: {
 **Issue: API calls failing**
 ```bash
 # Check backend health
-curl -k https://nlp_backend.itclub.asmitphuyal.com.np/health
+curl -k https://nlp-backend.itclub.asmitphuyal.com.np/health
 
 # Check CORS headers
-curl -k -I -X OPTIONS https://nlp_backend.itclub.asmitphuyal.com.np/generate
+curl -k -I -X OPTIONS https://nlp-backend.itclub.asmitphuyal.com.np/generate
 ````
 
 ````
