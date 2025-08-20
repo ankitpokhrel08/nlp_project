@@ -110,7 +110,7 @@ Internet → Traefik (Coolify) → Your Applications
 2. **Environment Variables**
 
    ```env
-   VITE_API_BASE_URL=https://nlp_backend.itclub.asmitphuyal.com.np
+   VITE_API_BASE_URL=https://nlp-backend.itclub.asmitphuyal.com.np
    PORT=8009
    ```
 
