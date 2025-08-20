@@ -49,7 +49,7 @@ export default defineConfig({
     outDir: "dist",
     assetsDir: "assets",
     sourcemap: false, // Disable sourcemaps in production for smaller bundle
-    minify: "terser", // Use terser for better minification
+    minify: true, // Use default esbuild minification instead of terser
     rollupOptions: {
       output: {
         manualChunks: {

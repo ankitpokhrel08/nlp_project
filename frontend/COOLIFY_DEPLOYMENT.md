@@ -50,6 +50,7 @@ VITE_BUILD_MODE=production
 ## 🚀 Deployment Steps
 
 1. **Push to Repository**
+
    ```bash
    git add .
    git commit -m "feat: optimize frontend for Coolify deployment"
@@ -57,6 +58,7 @@ VITE_BUILD_MODE=production
    ```
 
 2. **Create Application in Coolify**
+
    - Login to your Coolify dashboard
    - Create new application with settings above
    - Set environment variables
