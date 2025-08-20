@@ -110,18 +110,18 @@ Internet → Traefik (Coolify) → Your Applications
 2. **Environment Variables**
 
    ```env
-   VITE_API_BASE_URL=https://nlp_backend.itclub.asmitphuyal.com.np
+   VITE_API_BASE_URL=https://nlp-backend.itclub.asmitphuyal.com.np
    PORT=8009
    ```
 
    ```env
    PORT=8009
-   VITE_API_BASE_URL=https://nlp-backend.itclub.asmitphuyal.com.np:8007
+   VITE_API_BASE_URL=https://nlp-backend.itclub.asmitphuyal.com.np
    ```
 
 ### 🔗 Service Communication
 
-- Backend: `https://nlp-backend.itclub.asmitphuyal.com.np:8007`
+- Backend: `https://nlp-backend.itclub.asmitphuyal.com.np`
 - Frontend: `https://frontend-6zz4.onrender.com`
 - Frontend calls backend via HTTPS (no SSL issues)
 
@@ -229,7 +229,7 @@ docker-compose down
 
 ### After Coolify Deployment
 
-- [ ] Backend health check: `https://nlp-backend.itclub.asmitphuyal.com.np:8007/health`
+- [ ] Backend health check: `https://nlp-backend.itclub.asmitphuyal.com.np/health`
 - [ ] Frontend loads: `https://your-frontend-domain.com`
 - [ ] API calls work from frontend
 - [ ] SSL certificates active

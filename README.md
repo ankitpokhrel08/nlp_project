@@ -156,14 +156,14 @@ FLASK_DEBUG=0
 **Environment Variables:**
 
 ```env
-VITE_API_BASE_URL=https://nlp_backend.itclub.asmitphuyal.com.np
+VITE_API_BASE_URL=https://nlp-backend.itclub.asmitphuyal.com.np
 PORT=8009
 ```
 
 **API Configuration:**
 
 - Backend URL configured in `src/config/api.js`
-- Currently points to: `https://nlp_backend.itclub.asmitphuyal.com.np`
+- Currently points to: `https://nlp-backend.itclub.asmitphuyal.com.np`
 - No port needed in public URL (handled by Coolify/Traefik)
 
 ## �🚀 Quick Start
@@ -226,8 +226,8 @@ npm run dev
 **Production (Coolify):**
 
 - Frontend: https://frontend-6zz4.onrender.com
-- Backend API: https://nlp-backend.itclub.asmitphuyal.com.np:8007
-- Health Check: https://nlp-backend.itclub.asmitphuyal.com.np:8007/health
+- Backend API: https://nlp-backend.itclub.asmitphuyal.com.np
+- Health Check: https://nlp-backend.itclub.asmitphuyal.com.np/health
 
 ## 🐳 Docker Deployment
 
@@ -475,7 +475,7 @@ railway up
 ### Base URLs
 
 - **Development**: `http://localhost:8007`
-- **Production**: `https://nlp_backend.itclub.asmitphuyal.com.np`
+- **Production**: `https://nlp-backend.itclub.asmitphuyal.com.np`
 
 ### Authentication
 
@@ -498,7 +498,7 @@ Currently, no authentication is required for API endpoints.
 **Health Check:**
 
 ```bash
-curl -X GET https://nlp_backend.itclub.asmitphuyal.com.np/health
+curl -X GET https://nlp-backend.itclub.asmitphuyal.com.np/health
 ```
 
 ```json
@@ -517,7 +517,7 @@ curl -X GET https://nlp_backend.itclub.asmitphuyal.com.np/health
 **Text Generation:**
 
 ```bash
-curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/generate \
+curl -X POST https://nlp-backend.itclub.asmitphuyal.com.np/generate \
   -H "Content-Type: application/json" \
   -d '{"prompt": "नेपाल एक सुन्दर देश हो", "max_length": 50}'
 ```
@@ -525,7 +525,7 @@ curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/generate \
 **Named Entity Recognition:**
 
 ```bash
-curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/ner \
+curl -X POST https://nlp-backend.itclub.asmitphuyal.com.np/ner \
   -H "Content-Type: application/json" \
   -d '{"text": "राम काठमाडौंमा बस्छन्।"}'
 ```
@@ -533,7 +533,7 @@ curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/ner \
 **Lemmatization:**
 
 ```bash
-curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/lemmatize \
+curl -X POST https://nlp-backend.itclub.asmitphuyal.com.np/lemmatize \
   -H "Content-Type: application/json" \
   -d '{"text": "केटाहरु खेल्दै छन्"}'
 ```
@@ -541,7 +541,7 @@ curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/lemmatize \
 **Morphological Analysis (Stemmer):**
 
 ```bash
-curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/stemmer \
+curl -X POST https://nlp-backend.itclub.asmitphuyal.com.np/stemmer \
   -H "Content-Type: application/json" \
   -d '{"text": "केटाहरु"}'
 ```
@@ -549,7 +549,7 @@ curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/stemmer \
 **Aspect-Based Sentiment Analysis:**
 
 ```bash
-curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/aspect \
+curl -X POST https://nlp-backend.itclub.asmitphuyal.com.np/aspect \
   -H "Content-Type: application/json" \
   -d '{"text": "यो फिल्म राम्रो छ"}'
 ```
@@ -557,7 +557,7 @@ curl -X POST https://nlp_backend.itclub.asmitphuyal.com.np/aspect \
 **Model Information:**
 
 ```bash
-curl -X GET https://nlp_backend.itclub.asmitphuyal.com.np/model-info
+curl -X GET https://nlp-backend.itclub.asmitphuyal.com.np/model-info
 ```
 
 ### Rate Limiting
@@ -1137,15 +1137,15 @@ SOFTWARE.
 1. **Accept Certificate Manually**: Visit the backend URL directly and accept the certificate
 
    ```
-   https://nlp_backend.itclub.asmitphuyal.com.np
+   https://nlp-backend.itclub.asmitphuyal.com.np
    ```
 
-   - Click "Advanced" → "Proceed to nlp_backend.itclub.asmitphuyal.com.np (unsafe)"
+   - Click "Advanced" → "Proceed to nlp-backend.itclub.asmitphuyal.com.np (unsafe)"
    - Return to frontend application and try again
 
 2. **Backend Health Check**: Verify backend is accessible
    ```bash
-   curl -k https://nlp_backend.itclub.asmitphuyal.com.np/health
+   curl -k https://nlp-backend.itclub.asmitphuyal.com.np/health
    ```
 
 **For Development:**
@@ -1161,10 +1161,10 @@ SOFTWARE.
 **Frontend not connecting to backend:**
 ```bash
 # Check if backend is running
-curl -k https://nlp_backend.itclub.asmitphuyal.com.np/health
+curl -k https://nlp-backend.itclub.asmitphuyal.com.np/health
 
 # Check CORS headers
-curl -k -I -X OPTIONS https://nlp_backend.itclub.asmitphuyal.com.np/generate
+curl -k -I -X OPTIONS https://nlp-backend.itclub.asmitphuyal.com.np/generate
 ````
 
 ````

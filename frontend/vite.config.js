@@ -10,9 +10,9 @@ export default defineConfig({
     allowedHosts: ["frontend-6zz4.onrender.com"], // Allow the specific Render host
     proxy: {
       "/api": {
-        target: "https://nlp_backend.itclub.asmitphuyal.com.np:8007",
+        target: "https://nlp-backend.itclub.asmitphuyal.com.np", // Updated to secure backend URL
         changeOrigin: true,
-        secure: false, // This bypasses SSL certificate verification
+        secure: true, // Can now use secure SSL since backend has valid certificate
         rewrite: (path) => path.replace(/^\/api/, ""),
         configure: (proxy, options) => {
           // Add custom headers if needed
@@ -29,9 +29,9 @@ export default defineConfig({
     allowedHosts: ["frontend-6zz4.onrender.com"], // Allow the specific Render host
     proxy: {
       "/api": {
-        target: "https://nlp_backend.itclub.asmitphuyal.com.np:8007",
+        target: "https://nlp-backend.itclub.asmitphuyal.com.np", // Updated to secure backend URL
         changeOrigin: true,
-        secure: false, // This bypasses SSL certificate verification
+        secure: true, // Can now use secure SSL since backend has valid certificate
         rewrite: (path) => path.replace(/^\/api/, ""),
         configure: (proxy, options) => {
           // Add custom headers if needed
