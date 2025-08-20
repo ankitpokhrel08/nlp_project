@@ -95,6 +95,25 @@ def load_model():
         logger.error(f"Error loading model: {str(e)}")
         return False
 
+@app.route('/')
+def index():
+    """Root route for SSL certificate verification and service identification"""
+    return {
+        "status": "ok", 
+        "service": "nlp-backend",
+        "message": "Nepali NLP Backend API is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "health": "/health",
+            "models": "/model-info",
+            "generate": "/generate",
+            "ner": "/ner",
+            "lemmatize": "/lemmatize",
+            "stemmer": "/stemmer",
+            "aspect": "/aspect"
+        }
+    }
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
