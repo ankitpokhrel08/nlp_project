@@ -35,8 +35,8 @@ RUN mkdir -p /app/.cache/transformers /app/.cache/huggingface
 EXPOSE 8007
 
 # Health check for Coolify
-HEALTHCHECK --interval=30s --timeout=30s --start-period=120s --retries=3 \
-    CMD curl -f http://localhost:8007/health || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --start-period=180s --retries=5 \
+    CMD sh -c 'curl -fsS http://127.0.0.1:${PORT:-8007}/health || exit 1'
 
 # Command to run the application
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8007} --workers ${GUNICORN_WORKERS:-1} --threads ${GUNICORN_THREADS:-4} --timeout ${GUNICORN_TIMEOUT:-300} wsgi:app"]

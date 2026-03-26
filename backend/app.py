@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline, BertTokenizer, BertForSequenceClassification
-import torch
 import logging
 import sys
 import os
 import re
 import threading
+
+try:
+    import torch
+    torch_import_error = None
+except Exception as e:
+    torch = None
+    torch_import_error = str(e)
 
 # Add the lemmatizer path to sys.path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'model', 'NepaliLemmatizer'))
@@ -83,6 +88,19 @@ def load_model():
     """Load the model and tokenizer"""
     global tokenizer, model, ner_pipeline, stemmer, model_load_error
     try:
+        from transformers import (
+            AutoTokenizer,
+            AutoModelForCausalLM,
+            pipeline,
+            BertTokenizer,
+            BertForSequenceClassification,
+        )
+
+        if torch is None:
+            model_load_error = f"torch import failed: {torch_import_error}"
+            logger.error(model_load_error)
+            return False
+
         logger.info("Loading NepaliGPT model and tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained("Shushant/thesis_nepaliGPT")
         model = AutoModelForCausalLM.from_pretrained("Shushant/thesis_nepaliGPT")
@@ -160,6 +178,8 @@ def health_check():
         "models_loading": models_loading,
         "models_ready": models_loaded,
         "model_load_error": model_load_error,
+        "torch_available": torch is not None,
+        "torch_import_error": torch_import_error,
         "model_loaded": model is not None,
         "ner_loaded": ner_pipeline is not None,
         "lemmatizer_loaded": lemmatizer_available,
@@ -172,6 +192,12 @@ def health_check():
 def generate():
     """Generate text using NepaliGPT model"""
     try:
+        if torch is None:
+            return jsonify({
+                "error": "PyTorch not available",
+                "message": torch_import_error
+            }), 503
+
         trigger_model_loading_async()
 
         # Check if model is loaded
@@ -476,6 +502,12 @@ def analyze_stemmer():
 def aspect_analysis():
     """Perform aspect-based sentiment analysis on Nepali text"""
     try:
+        if torch is None:
+            return jsonify({
+                "error": "PyTorch not available",
+                "message": torch_import_error
+            }), 503
+
         trigger_model_loading_async()
 
         # Check if model is loaded
