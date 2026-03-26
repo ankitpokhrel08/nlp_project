@@ -22,9 +22,9 @@ export default defineConfig(({ mode }) => {
           secure: isHttpsTarget,
           rewrite: (path) => path.replace(/^\/api/, ""),
           configure: (proxy) => {
-            // Preserve permissive CORS behavior used by current setup.
-            proxy.on("proxyReq", (proxyReq) => {
-              proxyReq.setHeader("Access-Control-Allow-Origin", "*");
+            // CORS headers must be set on responses, not outgoing proxy requests.
+            proxy.on("proxyRes", (proxyRes) => {
+              proxyRes.headers["access-control-allow-origin"] = "*";
             });
           },
         },
@@ -42,8 +42,8 @@ export default defineConfig(({ mode }) => {
           secure: isHttpsTarget,
           rewrite: (path) => path.replace(/^\/api/, ""),
           configure: (proxy) => {
-            proxy.on("proxyReq", (proxyReq) => {
-              proxyReq.setHeader("Access-Control-Allow-Origin", "*");
+            proxy.on("proxyRes", (proxyRes) => {
+              proxyRes.headers["access-control-allow-origin"] = "*";
             });
           },
         },

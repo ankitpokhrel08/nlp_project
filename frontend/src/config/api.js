@@ -7,8 +7,9 @@ const API_CONFIG = {
       ? "/api" // Use proxy in development
       : "https://nlp-backend.itclub.asmitphuyal.com.np"),
 
-  // For local development (use port 8007 for Docker container)
-  // BASE_URL: "http://localhost:8007",
+  // For local development without Vite proxy (optional override):
+  // BASE_URL: "http://localhost:8000", // python app.py default
+  // BASE_URL: "http://localhost:8007", // Docker container port
 
   ENDPOINTS: {
     GENERATE: "/generate",
