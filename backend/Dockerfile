@@ -1,5 +1,5 @@
-# Use Python 3.11 slim for better compatibility with Coolify
-FROM python:3.11-slim
+# Use a stable slim base to keep package resolution predictable on build servers
+FROM python:3.11-slim-bookworm
 
 # Set working directory
 WORKDIR /app
@@ -10,10 +10,9 @@ ENV PYTHONUNBUFFERED=1
 ENV FLASK_ENV=production
 ENV PORT=8007
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
-    g++ \
+# Install only runtime tools needed by healthcheck to reduce build time
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
