@@ -6,6 +6,7 @@ import logging
 import sys
 import os
 import re
+import threading
 
 # Add the lemmatizer path to sys.path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'model', 'NepaliLemmatizer'))
@@ -42,9 +43,45 @@ stemmer = None
 aspect_tokenizer = None
 aspect_model = None
 
+# Track model loading state so the server can start even if model load is slow.
+models_loading = False
+models_loaded = False
+model_load_error = None
+model_load_lock = threading.Lock()
+
+
+def _load_models_background():
+    """Load all models in a background thread and track status."""
+    global models_loading, models_loaded, model_load_error
+    try:
+        success = load_model()
+        models_loaded = bool(success)
+        if not success and model_load_error is None:
+            model_load_error = "Model initialization failed"
+    except Exception as e:
+        models_loaded = False
+        model_load_error = str(e)
+        logger.error(f"Unexpected model loading error: {str(e)}")
+    finally:
+        models_loading = False
+
+
+def trigger_model_loading_async(force=False):
+    """Start model loading in background if needed."""
+    global models_loading, model_load_error
+    with model_load_lock:
+        if models_loading:
+            return
+        if models_loaded and not force:
+            return
+
+        models_loading = True
+        model_load_error = None
+        threading.Thread(target=_load_models_background, daemon=True).start()
+
 def load_model():
     """Load the model and tokenizer"""
-    global tokenizer, model, ner_pipeline, stemmer
+    global tokenizer, model, ner_pipeline, stemmer, model_load_error
     try:
         logger.info("Loading NepaliGPT model and tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained("Shushant/thesis_nepaliGPT")
@@ -92,6 +129,7 @@ def load_model():
         
         return True
     except Exception as e:
+        model_load_error = str(e)
         logger.error(f"Error loading model: {str(e)}")
         return False
 
@@ -119,6 +157,9 @@ def health_check():
     """Health check endpoint"""
     return jsonify({
         "status": "healthy",
+        "models_loading": models_loading,
+        "models_ready": models_loaded,
+        "model_load_error": model_load_error,
         "model_loaded": model is not None,
         "ner_loaded": ner_pipeline is not None,
         "lemmatizer_loaded": lemmatizer_available,
@@ -131,11 +172,15 @@ def health_check():
 def generate():
     """Generate text using NepaliGPT model"""
     try:
+        trigger_model_loading_async()
+
         # Check if model is loaded
         if model is None or tokenizer is None:
             return jsonify({
                 "error": "Model not loaded",
-                "message": "Please wait for the model to load"
+                "message": "Please wait for the model to load",
+                "models_loading": models_loading,
+                "last_error": model_load_error
             }), 503
 
         # Get data from request
@@ -201,11 +246,15 @@ def generate():
 def named_entity_recognition():
     """Perform Named Entity Recognition using BERT-based model"""
     try:
+        trigger_model_loading_async()
+
         # Check if NER model is loaded
         if ner_pipeline is None:
             return jsonify({
                 "error": "NER model not loaded",
-                "message": "Please wait for the NER model to load"
+                "message": "Please wait for the NER model to load",
+                "models_loading": models_loading,
+                "last_error": model_load_error
             }), 503
 
         # Get data from request
@@ -314,11 +363,15 @@ def lemmatize():
 def analyze_stemmer():
     """Analyze Nepali words using morphological analyzer (stemmer)"""
     try:
+        trigger_model_loading_async()
+
         # Check if stemmer is loaded
         if stemmer is None:
             return jsonify({
                 "error": "Stemmer not loaded",
-                "message": "Stemmer model is not available"
+                "message": "Stemmer model is not available",
+                "models_loading": models_loading,
+                "last_error": model_load_error
             }), 503
 
         # Get data from request
@@ -423,11 +476,15 @@ def analyze_stemmer():
 def aspect_analysis():
     """Perform aspect-based sentiment analysis on Nepali text"""
     try:
+        trigger_model_loading_async()
+
         # Check if model is loaded
         if aspect_model is None or aspect_tokenizer is None:
             return jsonify({
                 "error": "Aspect model not loaded",
-                "message": "Please wait for the aspect model to load"
+                "message": "Please wait for the aspect model to load",
+                "models_loading": models_loading,
+                "last_error": model_load_error
             }), 503
 
         # Get the input text
@@ -575,13 +632,11 @@ def internal_error(error):
 
 if __name__ == '__main__':
     logger.info("Starting NepaliGPT Flask API...")
-    
-    # Load model on startup
-    if load_model():
-        # Get port from environment variable or default to 8000
-        port = int(os.environ.get('PORT', 8000))
-        logger.info(f"Starting Flask server on port {port}...")
-        app.run(host='0.0.0.0', port=port, debug=False)
-    else:
-        logger.error("Failed to load model. Exiting...")
-        exit(1)
+
+    # Start model loading in background so service is reachable during startup.
+    trigger_model_loading_async(force=True)
+
+    # Get port from environment variable or default to 8000
+    port = int(os.environ.get('PORT', 8000))
+    logger.info(f"Starting Flask server on port {port}...")
+    app.run(host='0.0.0.0', port=port, debug=False)
