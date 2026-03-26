@@ -5,13 +5,11 @@ import sys
 import os
 import re
 import threading
+import importlib
 
-try:
-    import torch
-    torch_import_error = None
-except Exception as e:
-    torch = None
-    torch_import_error = str(e)
+torch = None
+torch_import_error = None
+torch_import_lock = threading.Lock()
 
 # Add the lemmatizer path to sys.path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'model', 'NepaliLemmatizer'))
@@ -55,6 +53,25 @@ model_load_error = None
 model_load_lock = threading.Lock()
 
 
+def ensure_torch_loaded():
+    """Load torch lazily and only once per process."""
+    global torch, torch_import_error
+
+    if torch is not None:
+        return True
+
+    with torch_import_lock:
+        if torch is not None:
+            return True
+        try:
+            torch = importlib.import_module("torch")
+            torch_import_error = None
+            return True
+        except Exception as e:
+            torch_import_error = str(e)
+            return False
+
+
 def _load_models_background():
     """Load all models in a background thread and track status."""
     global models_loading, models_loaded, model_load_error
@@ -96,7 +113,7 @@ def load_model():
             BertForSequenceClassification,
         )
 
-        if torch is None:
+        if not ensure_torch_loaded():
             model_load_error = f"torch import failed: {torch_import_error}"
             logger.error(model_load_error)
             return False
@@ -192,7 +209,7 @@ def health_check():
 def generate():
     """Generate text using NepaliGPT model"""
     try:
-        if torch is None:
+        if not ensure_torch_loaded():
             return jsonify({
                 "error": "PyTorch not available",
                 "message": torch_import_error
@@ -502,7 +519,7 @@ def analyze_stemmer():
 def aspect_analysis():
     """Perform aspect-based sentiment analysis on Nepali text"""
     try:
-        if torch is None:
+        if not ensure_torch_loaded():
             return jsonify({
                 "error": "PyTorch not available",
                 "message": torch_import_error

@@ -5,7 +5,6 @@ FROM python:3.11-slim-bookworm
 WORKDIR /app
 
 # Set environment variables
-ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_ENV=production
 ENV PORT=8007
@@ -39,4 +38,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=180s --retries=5 \
     CMD sh -c 'curl -fsS http://127.0.0.1:${PORT:-8007}/health || exit 1'
 
 # Command to run the application
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8007} --workers ${GUNICORN_WORKERS:-1} --threads ${GUNICORN_THREADS:-4} --timeout ${GUNICORN_TIMEOUT:-300} wsgi:app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8007} --workers ${GUNICORN_WORKERS:-1} --threads ${GUNICORN_THREADS:-1} --timeout ${GUNICORN_TIMEOUT:-300} app:app"]
