@@ -5,7 +5,6 @@ import sys
 import os
 import re
 import threading
-import importlib
 
 torch = None
 torch_import_error = None
@@ -38,6 +37,9 @@ CORS(app)  # Enable CORS for all routes
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Disable tokenizer worker threads in constrained containers.
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
 # Global variables for model and tokenizer
 tokenizer = None
 model = None
@@ -63,8 +65,11 @@ def ensure_torch_loaded():
     with torch_import_lock:
         if torch is not None:
             return True
+        if torch_import_error is not None:
+            return False
         try:
-            torch = importlib.import_module("torch")
+            import torch as torch_module
+            torch = torch_module
             torch_import_error = None
             return True
         except Exception as e:
@@ -105,6 +110,12 @@ def load_model():
     """Load the model and tokenizer"""
     global tokenizer, model, ner_pipeline, stemmer, model_load_error
     try:
+        # Import torch first so native extension initialization happens once.
+        if not ensure_torch_loaded():
+            model_load_error = f"torch import failed: {torch_import_error}"
+            logger.error(model_load_error)
+            return False
+
         from transformers import (
             AutoTokenizer,
             AutoModelForCausalLM,
@@ -112,11 +123,6 @@ def load_model():
             BertTokenizer,
             BertForSequenceClassification,
         )
-
-        if not ensure_torch_loaded():
-            model_load_error = f"torch import failed: {torch_import_error}"
-            logger.error(model_load_error)
-            return False
 
         logger.info("Loading NepaliGPT model and tokenizer...")
         tokenizer = AutoTokenizer.from_pretrained("Shushant/thesis_nepaliGPT")
@@ -167,6 +173,11 @@ def load_model():
         model_load_error = str(e)
         logger.error(f"Error loading model: {str(e)}")
         return False
+
+
+# Import torch on worker startup to avoid concurrent first-import races.
+if not ensure_torch_loaded():
+    logger.warning(f"PyTorch import failed at startup: {torch_import_error}")
 
 @app.route('/')
 def index():
